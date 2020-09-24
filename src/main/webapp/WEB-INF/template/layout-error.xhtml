@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-sfinle=1" />
+	</f:facet>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<link
+		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600"
+		media="screen" rel="stylesheet" />
+
+	<title><ui:insert name="titulo"></ui:insert> | sfin</title>
+	<h:outputStylesheet library="errors" name="error.css" />
+	<h:outputStylesheet library="errors" name="base-error.css" />
+
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{facesContext.externalContext.requestContextPath}/resources/img/favicon.ico" />
+
+	<h:outputScript target="body" library="js" name="error.js" />
+</h:head>
+
+<h:body
+	styleClass="sign error-page-wrapper background-color background-image">
+	<div class="sign-container">
+		<div class="nob"></div>
+		<div class="post left"></div>
+		<div class="post right"></div>
+		<div class="pane">
+<!-- 			<h:graphicImage library="img" name="logo-unicatolica.png" -->
+<!-- 				styleClass="logo" /> -->
+			<div class="headline sign-text-color">
+				Erro:
+				<ui:insert name="codigo-erro"></ui:insert>
+			</div>
+			<div class="context sign-text-color">
+				<ui:insert name="descricao-erro"></ui:insert>
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<br />
+
+	<div class="text-container">
+		<div class="headline secondary-text-color">
+			<ui:insert name="texto-secundario-erro"></ui:insert>
+		</div>
+		<div class="context primary-text-color">
+			<p>
+				<ui:insert name="solucao-erro"></ui:insert>
+			</p>
+		</div>
+		<div class="buttons-container">
+			<a class="border-button"
+				href="#{facesContext.externalContext.requestContextPath}#{sessaoBean.paginaInicial}"><span
+				class="fa fa-home"></span> Página Inicial</a> <a class="border-button"
+				href="javascript:history.back()"><span class="fa fa-mail-reply"></span>
+				Página Anterior</a>
+		</div>
+	</div>
+
+</h:body>
+
+</html>

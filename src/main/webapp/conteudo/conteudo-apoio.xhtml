@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template/layout.xhtml">
+
+	
+	<ui:define name="title-page">
+		Conteúdo
+	</ui:define>
+	
+	<ui:define name="imagem">
+	</ui:define>
+	
+	<ui:define name="titulo">
+		Conteúdo de Apoio
+	</ui:define>
+
+	<ui:define name="sub-titulo">
+		<h:outputLabel value="Conteúdo de apoio sobre #{pesquisarConteudoApoioController.categoria.descricao}"/>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<div class="box-header with-border">
+			<label style="font-size: 20px">			
+			 	#{pesquisarConteudoApoioController.categoria.descricao}
+			</label>
+			
+			<p:button value="Cadastrar" outcome="/conteudo/cadastrar-conteudo-apoio.xhtml" icon="fa fa-plus" styleClass="btn btn-sm pull-right"  />
+				
+			<h:form>
+				<p:accordionPanel style="margin-top:20px">
+					<c:forEach items="#{pesquisarConteudoApoioController.subcategorias}" var="subCategoria">
+						<p:tab title="#{subCategoria.nome}">
+							<div>
+								<p:outputPanel deferred="true">
+									<ui:repeat var="conteudo" value="#{pesquisarConteudoApoioController.getConteudos(subCategoria)}">
+										<div class="ui-g-12 ui-md-9 ui-sm-3 ui-lg-4">
+											<p:panel header="#{conteudo.titulo}" style="text-align:left">
+												<h:panelGrid columns="1" style="width:100%; text-align:center">
+													<a href="https://www.youtube.com/watch?v=#{conteudo.idVideo()}" target="_blank">
+														<img src="https://img.youtube.com/vi/#{conteudo.idVideo()}/default.jpg"  alt="image-link"/>
+													</a>
+													<h:outputText value="#{conteudo.descricao}" />
+												</h:panelGrid>
+											</p:panel>
+										</div>
+									</ui:repeat>
+								</p:outputPanel>
+							</div>
+						</p:tab>
+					</c:forEach>
+				</p:accordionPanel>
+			  </h:form>
+		</div>
+<!-- 		<c:if test="#{pesquisarConteudoApoioController.fundamentosComputacao}"> -->
+<!-- 			<ui:include src="/WEB-INF/includes/conteudo-apoio/fundamentos-computacao.xhtml" /> -->
+<!-- 		</c:if> -->
+
+<!-- 		<c:if test="#{pesquisarConteudoApoioController.tecnologiasComputacao}"> -->
+<!-- 			<ui:include	src="/WEB-INF/includes/conteudo-apoio/tecnologias-computacao.xhtml" /> -->
+<!-- 		</c:if> -->
+		
+<!-- 		<c:if test="#{pesquisarConteudoApoioController.matematica}"> -->
+<!-- 			<ui:include	src="/WEB-INF/includes/conteudo-apoio/matematica.xhtml" /> -->
+<!-- 		</c:if> -->
+
+	</ui:define>
+</ui:composition>

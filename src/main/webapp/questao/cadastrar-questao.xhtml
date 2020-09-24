@@ -1,0 +1,254 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	template="/WEB-INF/template/layout.xhtml">
+
+
+	<ui:define name="title-page">
+		#{cadastrarQuestaoController.questao.nova ? 'Cadastrar' : 'Editar'} questão
+	</ui:define>
+
+	<ui:define name="imagem">
+	</ui:define>
+
+	<ui:define name="titulo">
+		Questão
+	</ui:define>
+
+	<ui:define name="sub-titulo">
+		Página para #{cadastrarQuestaoController.questao.nova ? 'cadastrar' : 'editar'} questões
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formulario" prependId="false">
+
+			<p:messages id="msg" closable="true" />
+
+			<div jsf:id="panel" class="ui-fluid ui-g">
+				<div class="ui-g-12 ui-md-12 ui-lg-12">
+					<p:outputLabel value="Enunciado: " for="enunciado" />
+					<br />
+					<p:textEditor id="enunciado"
+						value="#{cadastrarQuestaoController.questao.enunciado}"
+						placeholder="Escreva aqui o enunciado da questão" height="150" />
+				</div>
+				<div class="ui-g-12 ui-md-6 ui-lg-4">
+					<p:outputLabel value="Referências: " for="referencia" />
+					<br />
+					<p:inputTextarea id="referencia"
+						placeholder="Escreva aqui a referência da questão"
+						value="#{cadastrarQuestaoController.questao.referencia}"
+						maxlength="255" counterTemplate="{0} caracteres restantes."
+						counter="display-referencia" />
+					<h:outputText id="display-referencia" />
+				</div>
+				<div class="ui-g-12 ui-md-6 ui-lg-4">
+					<p:outputLabel value="Categoria: " />
+					<br />
+					<p:selectOneMenu id="categoria" required="true"
+						value="#{cadastrarQuestaoController.categoria}"
+						converter="CategoriaConverter" autoWidth="false"
+						requiredMessage="Selecione a categoria">
+						<f:selectItem itemLabel="Selecione a categoria"
+							noSelectionOption="true" />
+						<f:selectItems value="#{cadastrarQuestaoController.categorias}"
+							var="categoria" itemLabel="#{categoria.nome}"
+							itemValue="#{categoria}" />
+						<p:ajax update="panel-select-sub-categoria msg"
+							listener="#{cadastrarQuestaoController.subCategoriasPorCategoria()}" />
+					</p:selectOneMenu>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4">
+					<h:panelGroup id="panel-select-sub-categoria">
+						<p:outputLabel value="Sub Categoria:" />
+						<br />
+						<p:selectOneMenu id="subCategoria" required="true"
+							value="#{cadastrarQuestaoController.questao.subCategoria}"
+							converter="SubCategoriaConverter" autoWidth="false"
+							requiredMessage="Selecione uma subcategoria">
+							<f:selectItem itemLabel="Selecione uma sub categoria"
+								noSelectionOption="false" />
+							<f:selectItems
+								value="#{cadastrarQuestaoController.subCategorias}"
+								var="subCategoria" itemLabel="#{subCategoria.nome}"
+								itemValue="#{subCategoria}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-9">
+					<p:outputLabel value="Link de Imagem: " for="link" />
+					<br />
+					<p:inputText id="link" placeholder="Escreva aqui o link de imagem"
+						value="#{cadastrarQuestaoController.questao.linkImagem}" />
+				</div>
+				<div class="ui-g-12 ui-md-3 ui-lg-3">
+					<p:commandButton value="Adicionar alternativa"
+						oncomplete="PF('dlg-adicionar-alternativa').show()"
+						style="margin-top: 25px; float:right; " icon="fa fa-plus" />
+				</div>
+
+				<p:dataTable id="alternativas-table" style="margin-top:20px"
+					value="#{cadastrarQuestaoController.questao.alternativas}"
+					var="alternativa" paginator="true" rows="30"
+					rowsPerPageTemplate="15, 30" lazy="true" paginatorPosition="top"
+					paginatorAlwaysVisible="false"
+					emptyMessage="Nenhuma informação encontrada." reflow="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{currentPage} de {totalPages}">
+
+					<p:column headerText="ID" styleClass="centralizado">
+						<h:outputLabel value="#{alternativa.id}" />
+					</p:column>
+
+					<p:column headerText="Enunciado" styleClass="centralizado">
+						<h:outputLabel value="#{alternativa.enunciado}" />
+					</p:column>
+
+					<p:column headerText="Correta" styleClass="centralizado">
+						<p:selectBooleanButton id="alternativa-correta" disabled="true"
+							value="#{alternativa.correta}" onLabel="Correta"
+							offLabel="Errada" style="width:100px" />
+					</p:column>
+
+					<p:column headerText="Data de cadastro" styleClass="centralizado">
+						<h:outputLabel value="#{alternativa.dataDeCriacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputLabel>
+					</p:column>
+
+					<p:column headerText="Ações" width="80" styleClass="centralizado">
+
+						<p:commandLink rendered="#{alternativa.nova}"
+							action="#{cadastrarQuestaoController.removerAlternativa()}"
+							update="alternativas-table msg" process="@this"
+							title="Remover Alternaviva">
+
+							<h:panelGroup>
+								<i class="material-icons" style="color: red;">delete_forever</i>
+							</h:panelGroup>
+
+							<f:setPropertyActionListener value="#{alternativa}"
+								target="#{cadastrarQuestaoController.alternativaSelecionada}" />
+							<p:tooltip />
+						</p:commandLink>
+
+						<p:commandLink oncomplete="PF('dlg-adicionar-alternativa').show()"
+							rendered="#{alternativa.status}" update="dialogo" process="@this"
+							title="Editar Alternaviva">
+
+							<h:panelGroup>
+								<i class="material-icons">create</i>
+							</h:panelGroup>
+
+							<f:setPropertyActionListener value="#{alternativa}"
+								target="#{cadastrarQuestaoController.alternativa}" />
+							<p:tooltip />
+
+						</p:commandLink>
+						<h:panelGroup rendered="#{not alternativa.status}"
+							id="editar-disable">
+							<i class="material-icons">create</i>
+							<p:tooltip for="editar-disable" value="Editar desabilitado"
+								position="bottom" />
+						</h:panelGroup>
+
+					</p:column>
+
+				</p:dataTable>
+			</div>
+
+			<hr />
+
+			<div>
+				<p:commandButton value="Salvar" update="panel msg "
+					rendered="#{cadastrarQuestaoController.questao.nova}"
+					style="background-color: #008d4c; border-color:#008d4c; "
+					icon="fa fa-save" action="#{cadastrarQuestaoController.save()}" />
+
+				<p:commandButton value="Atualizar" update="panel msg"
+					rendered="#{cadastrarQuestaoController.questao.cadastrada}"
+					style="background-color: #00C0EF; border-color:#00C0EF; "
+					icon="fa fa-pencil" action="#{cadastrarQuestaoController.update()}" />
+				<p:spacer width="20" />
+
+				<p:commandButton value="Cancelar"
+					action="#{cadastrarQuestaoController.limparCampos()}"
+					style="background-color: #dd4b39; border-color: #d73925;"
+					icon="fa fa-close" />
+			</div>
+
+		</h:form>
+
+		<h:form prependId="false" id="form-dialog">
+
+			<p:dialog widgetVar="dlg-adicionar-alternativa" id="dialogo"
+				header="#{cadastrarQuestaoController.alternativa.nova ? 'Adicionar' : 'Editar'} Alternativa"
+				modal="true" resizable="false" showEffect="clip">
+
+				<p:messages id="msg-dialog" closable="true" />
+
+				<h:panelGrid columns="2">
+
+					<h:panelGroup>
+						<h:outputLabel value="Correta: " for="correta-dialog" />
+						<br />
+						<p:selectBooleanButton id="correta-dialog"
+							value="#{cadastrarQuestaoController.alternativa.correta}"
+							onLabel="Correta" offLabel="Errada" style="width:100px" />
+					</h:panelGroup>
+
+					<br />
+
+					<h:panelGroup>
+						<p:outputLabel value="Enunciado: " for="enunciado-dialog"
+							style="marrgin-right: 10px" />
+						<br />
+						<p:inputTextarea
+							value="#{cadastrarQuestaoController.alternativa.enunciado}"
+							id="enunciado-dialog" styleClass="form-control" required="true"
+							requiredMessage="Campo 'Enunciado' obrigatório" maxlength="300"
+							counterTemplate="{0} caracteres restantes."
+							counter="display-enunciado" />
+					</h:panelGroup>
+
+					<br />
+					<br />
+					<h:outputText id="display-enunciado" />
+
+					<f:facet name="footer">
+						<hr />
+						<p:commandButton value="Adicionar"
+							update="alternativas-table msg-dialog dialogo "
+							rendered="#{not cadastrarQuestaoController.alternativaJaAdicionada()}"
+							icon="fa fa-save"
+							action="#{cadastrarQuestaoController.adicionarAlternativa()}" />
+
+						<p:commandButton value="Editar"
+							update="alternativas-table msg-dialog dialogo "
+							rendered="#{cadastrarQuestaoController.alternativaJaAdicionada()}"
+							icon="fa fa-pencil"
+							action="#{cadastrarQuestaoController.editarAlternativa()}" />
+
+						<p:spacer width="20" />
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlg-adicionar-alternativa').hide()"
+							style="background-color: #dd4b39; border-color: #d73925;"
+							icon="fa fa-close" />
+					</f:facet>
+
+				</h:panelGrid>
+
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+		name="viewport" />
+
+	<title><ui:insert name="title-page" /></title>
+
+	<link rel="stylesheet"
+		href="#{request.contextPath}/resources/plugins/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet"
+		href="#{request.contextPath}/resources/plugins/font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet"
+		href="#{request.contextPath}/resources/css/AdminLTE.min.css" />
+	<link rel="stylesheet"
+		href="#{request.contextPath}/resources/css/skins/_all-skins.css" />
+	<link rel="stylesheet"
+		href="#{request.contextPath}/resources/css/card.css" />
+	<link rel="stylesheet"
+		href="#{request.contextPath}/resources/css/style.css" />
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+
+	<h:outputStylesheet library="iconfont" name="material-icons.css" />
+
+</h:head>
+
+<h:body class="hold-transition skin-blue sidebar-mini">
+
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide();" />
+
+	<p:dialog header="Carregando..." widgetVar="statusDialog" modal="true"
+		closable="false" resizable="false" showHeader="true" draggable="false"
+		style="text-align:center;">
+
+		<i class="fa fa-cog fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+		<!-- 		<p:graphicImage library="img" name="loader.gif" -->
+		<!-- 			width="100" /> -->
+
+	</p:dialog>
+
+	<div class="wrapper">
+
+		<ui:include src="/WEB-INF/template/header.xhtml" />
+
+		<ui:include src="/WEB-INF/template/menu.xhtml" />
+
+		<div class="content-wrapper">
+			<section class="content-header">
+				<!-- 				<ui:insert name="imagem" /> -->
+
+				<h1>
+					<ui:insert name="titulo" />
+					<br /> <small> <ui:insert name="sub-titulo" />
+					</small>
+				</h1>
+			</section>
+			<section class="content">
+				<div class="box">
+					<ui:insert name="conteudo" />
+				</div>
+			</section>
+		</div>
+
+		<ui:include src="/WEB-INF/template/footer.xhtml" />
+	</div>
+
+	<script
+		src="#{request.contextPath}/resources/plugins/bootstrap/dist/js/bootstrap.min.js" />
+	<script
+		src="#{request.contextPath}/resources/plugins/jquery-slimscroll/jquery.slimscroll.min.js" />
+
+	<script src="#{request.contextPath}/resources/js/adminlte.min.js" />
+	<script src="#{request.contextPath}/resources/js/demo.js" />
+	<script src="#{request.contextPath}/resources/js/menu.js" />
+
+	<!-- Tradução Calendário Primeface -->
+	<script>
+		PrimeFaces.locales['pt_BR'] = {
+			closeText : 'Fechar',
+			prevText : 'Anterior',
+			nextText : 'Próximo',
+			currentText : 'Começo',
+			monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+					'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+					'Novembro', 'Dezembro' ],
+			monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+					'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+			dayNames : [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+					'Sexta', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
+			dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 0,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Selecione a Hora',
+			timeText : 'Hora',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			ampm : false,
+			month : 'Mês',
+			week : 'Semana',
+			day : 'Dia',
+			allDayText : 'Todo o Dia'
+		};
+	</script>
+
+</h:body>
+</html>

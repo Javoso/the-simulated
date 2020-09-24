@@ -1,0 +1,282 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	template="/WEB-INF/template/layout.xhtml">
+
+
+	<ui:define name="title-page">
+		Pesquisar questao
+	</ui:define>
+
+	<ui:define name="imagem">
+	</ui:define>
+
+	<ui:define name="titulo">
+		Questões
+	</ui:define>
+
+	<ui:define name="sub-titulo">
+		Página para pesquisar questões
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formulario" prependId="false">
+
+			<p:messages id="msg" closable="true" />
+
+			<div jsf:id="panel-filter" class="ui-fluid ui-g">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<p:outputLabel value="Categoria: " />
+					<br />
+					<p:selectOneMenu id="categoria" required="true"
+						value="#{pesquisarQuestaoController.filter.categoria}"
+						converter="CategoriaConverter" autoWidth="false"
+						requiredMessage="Selecione a categoria">
+						<f:selectItem itemLabel="Selecione a categoria"
+							noSelectionOption="true" />
+						<f:selectItems value="#{pesquisarCategoriaController.categorias}"
+							var="categoria" itemLabel="#{categoria.nome}"
+							itemValue="#{categoria}" />
+						<p:ajax update="panel-select-sub-categoria msg"
+							listener="#{pesquisarQuestaoController.pesquisarSubCategoria()}" />
+					</p:selectOneMenu>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<h:panelGroup id="panel-select-sub-categoria">
+						<p:outputLabel value="Sub Categoria:" />
+						<br />
+						<p:selectOneMenu id="subCategoria" required="true"
+							value="#{pesquisarQuestaoController.filter.subCategoria}"
+							converter="SubCategoriaConverter" autoWidth="false"
+							requiredMessage="Selecione uma subcategoria">
+							<f:selectItem itemLabel="Selecione uma sub categoria"
+								noSelectionOption="false" />
+							<f:selectItems
+								value="#{pesquisarQuestaoController.subCategorias}"
+								var="subCategoria" itemLabel="#{subCategoria.nome}"
+								itemValue="#{subCategoria}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+				</div>
+
+				<div class="ui-g-12 ui-md-4 ui-lg-2">
+					<p:commandButton value="Pesquisar" id="pesquisar"
+						update="questoes-table msg panel-filter-ativos"
+						process="@this panel-filter" style="margin-top: 25px;"
+						styleClass="btn-blue btn-panel-filter ui-priority-primary"
+						icon="fa fa-search"
+						action="#{pesquisarQuestaoController.pesquisar()}" />
+				</div>
+				<p:defaultCommand target="pesquisar" />
+			</div>
+
+
+			<div jsf:id="panel-filter-ativos" class="ui-fluid ui-g">
+
+				<div style="margin-right: 5px;">
+					<p:commandButton id="filter-ativo-categoria"
+						value="#{pesquisarQuestaoController.filter.categoria.nome}"
+						process="@this"
+						action="#{pesquisarQuestaoController.resetFilterCategoria()}"
+						update="panel-filter panel-filter-ativos msg questoes-table"
+						rendered="#{pesquisarQuestaoController.filter.categoria != null}"
+						icon="fa fa-close" iconPos="right"
+						styleClass="btn-blue btn-panel-filter" />
+				</div>
+				<div style="margin-right: 5px;">
+					<p:commandButton id="filter-ativo-sub-categoria"
+						value="#{pesquisarQuestaoController.filter.subCategoria.nome}"
+						process="@this"
+						action="#{pesquisarQuestaoController.resetFilterSubCategoria()}"
+						update="panel-filter panel-filter-ativos msg questoes-table"
+						rendered="#{pesquisarQuestaoController.filter.subCategoria != null}"
+						icon="fa fa-close" iconPos="right"
+						styleClass="btn-blue btn-panel-filter" />
+				</div>
+
+			</div>
+
+			<br />
+
+			<p:dataTable id="questoes-table"
+				value="#{pesquisarQuestaoController.questoes}" var="questao"
+				paginator="true" rows="10" rowsPerPageTemplate="10, 20" lazy="true"
+				paginatorPosition="top" paginatorAlwaysVisible="false"
+				emptyMessage="Nenhuma informação encontrada." reflow="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{currentPage} de {totalPages}">
+
+				<p:column headerText="Ativo" width="50" styleClass="centralizado">
+					<p:commandLink action="#{pesquisarQuestaoController.mudarStatus()}"
+						update="questoes-table msg" process="@this"
+						title="#{questao.ativo ? 'Desativar' : 'Ativar'}">
+
+						<h:panelGroup rendered="#{questao.ativo}">
+							<i class="material-icons" style="color: green;">check_circle</i>
+						</h:panelGroup>
+
+						<h:panelGroup rendered="#{not questao.ativo}">
+							<i class="material-icons" style="color: red;">remove_circle</i>
+						</h:panelGroup>
+
+						<f:setPropertyActionListener value="#{questao}"
+							target="#{pesquisarQuestaoController.selecionada}" />
+						<p:tooltip />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="Enunciado" styleClass="centralizado"
+					width="70">
+					<p:commandLink title="Clique aqui para ver o enunciado da questão"
+						oncomplete="PF('enunciado-questao').show()" process="@this"
+						update="enunciado-questao">
+						<i class="material-icons" style="color: #00c0ef;">description</i>
+						<f:setPropertyActionListener value="#{questao}"
+							target="#{pesquisarQuestaoController.selecionada}" />
+						<p:ajax update="enunciado-questao" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="Alternativas" styleClass="centralizado"
+					width="70">
+					<p:commandLink process="@this" update="alternativas-questao"
+						title="Clique aqui para ver as alternativas da questão"
+						oncomplete="PF('alternativas-questao').show()">
+						<i class="material-icons" style="color: #00c0ef;">format_list_bulleted</i>
+						<f:setPropertyActionListener value="#{questao}"
+							target="#{pesquisarQuestaoController.selecionada}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="Imagem" styleClass="centralizado" width="70">
+					<p:commandLink process="@this" update="imagem-questao"
+						rendered="#{questao.linkImagem ne ''}"
+						title="Clique aqui para ver a imagem da questão"
+						oncomplete="PF('imagem-questao').show()">
+						<i class="material-icons" style="color: #00c0ef;">wallpaper</i>
+						<f:setPropertyActionListener value="#{questao.linkImagem}"
+							target="#{pesquisarQuestaoController.linkImagem}" />
+					</p:commandLink>
+					<p:outputLabel value="Sem Imagem"
+						rendered="#{questao.linkImagem eq ''}" />
+				</p:column>
+
+				<p:column headerText="Categoria" width="120"
+					styleClass="centralizado">
+					<h:outputLabel value="#{questao.subCategoria.categoria.nome}" />
+				</p:column>
+
+				<p:column headerText="SubCategoria" width="90"
+					styleClass="centralizado">
+					<h:outputLabel value="#{questao.subCategoria.nome}" />
+				</p:column>
+
+				<p:column headerText="Data de cadastro" width="90"
+					styleClass="centralizado">
+					<h:outputLabel value="#{questao.dataDeCriacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputLabel>
+				</p:column>
+
+				<p:column headerText="Ações" width="80" styleClass="centralizado">
+					<p:link id="editar" outcome="/questao/cadastrar-questao.xhtml"
+						rendered="#{questao.status}">
+						<i class="material-icons">create</i>
+						<f:param name="identificador" value="#{questao.codificarId()}" />
+					</p:link>
+					<p:tooltip for="editar" value="Editar dados" position="bottom" />
+
+					<h:panelGroup rendered="#{not questao.status}" id="editar-disable">
+						<i class="material-icons">create</i>
+						<p:tooltip for="editar-disable" value="Editar desabilitado"
+							position="bottom" />
+					</h:panelGroup>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:dialog header="Imagem da Questão" widgetVar="imagem-questao"
+				showEffect="explode" id="imagem-questao" width="500"
+				styleClass="centralizado">
+
+				<p:graphicImage url="#{pesquisarQuestaoController.linkImagem}"
+					width="400" height="400" alt="Imagem-Questao" />
+
+			</p:dialog>
+
+			<p:dialog header="Enunciado da Questão" widgetVar="enunciado-questao"
+				id="enunciado-questao" width="400">
+
+				<p>#{pesquisarQuestaoController.selecionada.enunciado}</p>
+
+			</p:dialog>
+
+
+			<p:dialog header="Alternativas da Questão"
+				widgetVar="alternativas-questao" id="alternativas-questao"
+				width="960">
+
+				<p:dataTable id="alternativas-table"
+					value="#{pesquisarQuestaoController.selecionada.alternativas}"
+					var="alternativa" paginator="true" rows="10"
+					rowsPerPageTemplate="10, 20" lazy="true" paginatorPosition="top"
+					paginatorAlwaysVisible="false"
+					emptyMessage="Nenhuma informação encontrada." reflow="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{currentPage} de {totalPages}">
+
+					<p:column headerText="Status" styleClass="centralizado" width="80">
+
+						<p:commandLink
+							action="#{pesquisarQuestaoController.mudarStatusAlternativa()}"
+							update="alternativas-table msg formulario" process="@this"
+							title="#{alternativa.ativo ? 'Desativar' : 'Ativar'}">
+
+							<h:panelGroup rendered="#{alternativa.ativo}">
+								<i class="material-icons" style="color: green;">check_circle</i>
+							</h:panelGroup>
+
+							<h:panelGroup rendered="#{not alternativa.ativo}">
+								<i class="material-icons" style="color: red;">remove_circle</i>
+							</h:panelGroup>
+
+							<f:setPropertyActionListener value="#{alternativa}"
+								target="#{pesquisarQuestaoController.alternativaSelecionada}" />
+							<p:tooltip />
+						</p:commandLink>
+
+					</p:column>
+
+					<p:column headerText="Enunciado" styleClass="centralizado">
+						<p>#{alternativa.enunciado}</p>
+					</p:column>
+
+					<p:column headerText="Correta" styleClass="centralizado"
+						width="150">
+						<p:selectBooleanButton id="alternativa-correta" disabled="true"
+							value="#{alternativa.correta}" onLabel="Correta"
+							offLabel="Errada" style="width:100px" />
+					</p:column>
+
+					<p:column headerText="Data de cadastro" width="90"
+						styleClass="centralizado">
+						<h:outputLabel value="#{alternativa.dataDeCriacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputLabel>
+					</p:column>
+
+				</p:dataTable>
+
+			</p:dialog>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	template="/WEB-INF/template/layout.xhtml">
+
+
+	<ui:define name="title-page">
+		Pesquisar sub-subCategoria
+	</ui:define>
+
+	<ui:define name="imagem">
+	</ui:define>
+
+	<ui:define name="titulo">
+		Sub-Categorias
+	</ui:define>
+
+	<ui:define name="sub-titulo">
+		Página para pesquisar sub-subCategorias
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formulario" prependId="false">
+
+			<p:messages id="msg" closable="true" />
+
+			<div jsf:id="panel-filter" class="ui-fluid ui-g">
+				<div class="ui-g-12 ui-md-6 ui-lg-2">
+					<p:outputLabel for="nome" value="Nome: " />
+					<br />
+					<p:inputText id="nome" placeholder="Digite o nome"
+						value="#{pesquisarSubCategoriaController.filter.nome}" />
+				</div>
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<p:outputLabel value="Categoria: " />
+					<br />
+					<p:selectOneMenu id="categoria" converter="CategoriaConverter"
+						value="#{pesquisarSubCategoriaController.filter.categoria}">
+						<f:selectItem itemLabel="Selecione a categoria"
+							noSelectionOption="true" />
+						<f:selectItems value="#{pesquisarCategoriaController.categorias}"
+							var="categoria" itemLabel="#{categoria.nome}"
+							itemValue="#{categoria}" />
+					</p:selectOneMenu>
+
+				</div>
+
+				<div class="ui-g-12 ui-md-4 ui-lg-2">
+					<p:commandButton value="Pesquisar" id="pesquisar"
+						update="subCategorias-table msg panel-filter-ativos"
+						process="@this panel-filter" 
+						style="margin-top: 25px;"
+						styleClass="btn-blue btn-panel-filter ui-priority-primary"
+						icon="fa fa-search"
+						action="#{pesquisarSubCategoriaController.pesquisar()}" />
+				</div>
+				<p:defaultCommand target="pesquisar" />
+			</div>
+
+
+			<div jsf:id="panel-filter-ativos" class="ui-fluid ui-g">
+				<div style="margin-right: 5px;">
+					<p:commandButton id="filter-ativo-nome"
+						value="#{pesquisarSubCategoriaController.filter.nome}"
+						process="@this"
+						action="#{pesquisarSubCategoriaController.resetFilterNomeCategoria()}"
+						update="panel-filter panel-filter-ativos msg subCategorias-table"
+						rendered="#{not empty pesquisarSubCategoriaController.filter.nome}"
+						icon="fa fa-close" iconPos="right"
+						styleClass="btn-blue btn-panel-filter" />
+				</div>
+				<div style="margin-right: 5px;">
+					<p:commandButton id="filter-ativo-categoria"
+						value="#{pesquisarSubCategoriaController.filter.categoria.nome}"
+						process="@this"
+						action="#{pesquisarSubCategoriaController.resetFilterCategoria()}"
+						update="panel-filter panel-filter-ativos msg subCategorias-table"
+						rendered="#{pesquisarSubCategoriaController.filter.categoria != null}"
+						icon="fa fa-close" iconPos="right"
+						styleClass="btn-blue btn-panel-filter" />
+				</div>
+
+			</div>
+
+			<br />
+
+			<p:dataTable id="subCategorias-table"
+				value="#{pesquisarSubCategoriaController.subCategorias}"
+				var="subCategoria" paginator="true" rows="10"
+				rowsPerPageTemplate="10, 20" lazy="true" paginatorPosition="top"
+				paginatorAlwaysVisible="false"
+				emptyMessage="Nenhuma informação encontrada." reflow="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{currentPage} de {totalPages}">
+
+				<p:column headerText="Ativo" width="50" styleClass="centralizado">
+					<p:commandLink
+						action="#{pesquisarSubCategoriaController.mudarStatus()}"
+						update="subCategorias-table msg" process="@this"
+						title="#{subCategoria.ativo ? 'Desativar' : 'Ativar'}">
+
+						<h:panelGroup rendered="#{subCategoria.ativo}">
+							<i class="material-icons" style="color: green;">check_circle</i>
+						</h:panelGroup>
+
+						<h:panelGroup rendered="#{not subCategoria.ativo}">
+							<i class="material-icons" style="color: red;">remove_circle</i>
+						</h:panelGroup>
+
+						<f:setPropertyActionListener value="#{subCategoria}"
+							target="#{pesquisarSubCategoriaController.selecionado}" />
+						<p:tooltip />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="Nome" styleClass="centralizado">
+					<h:outputLabel value="#{subCategoria.nome}" />
+				</p:column>
+
+				<p:column headerText="Descrição" styleClass="centralizado">
+					<h:outputLabel value="#{subCategoria.descricao}" />
+				</p:column>
+
+				<p:column headerText="Categoria" width="120" styleClass="centralizado">
+					<h:outputLabel value="#{subCategoria.categoria.nome}" />
+				</p:column>
+
+				<p:column headerText="Tipo Categoria" width="90" styleClass="centralizado">
+					<h:outputLabel value="#{subCategoria.categoria.tipoCategoria.nome}" />
+				</p:column>
+
+				<p:column headerText="Data de cadastro" width="90" styleClass="centralizado">
+					<h:outputLabel value="#{subCategoria.dataDeCriacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputLabel>
+				</p:column>
+
+				<p:column headerText="Ações" width="80" styleClass="centralizado">
+					<p:link id="editar"
+						outcome="/sub_categoria/cadastrar-sub-categoria.xhtml"
+						rendered="#{subCategoria.status}">
+						<i class="material-icons">create</i>
+						<f:param name="identificador"
+							value="#{subCategoria.codificarId()}" />
+					</p:link>
+					<p:tooltip for="editar" value="Editar dados" position="bottom" />
+
+					<h:panelGroup rendered="#{not subCategoria.status}"
+						id="editar-disable">
+						<i class="material-icons">create</i>
+						<p:tooltip for="editar-disable" value="Editar desabilitado"
+							position="bottom" />
+					</h:panelGroup>
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+
+
+</ui:composition>

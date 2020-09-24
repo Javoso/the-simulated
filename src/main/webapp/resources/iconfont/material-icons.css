@@ -1,0 +1,84 @@
+@font-face {
+	font-family: 'Material Icons';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		url('#{facesContext.externalContext.requestContextPath}/resources/iconfont/MaterialIcons-Regular.eot');
+	src:
+		url('#{facesContext.externalContext.requestContextPath}/resources/iconfont/MaterialIcons-Regular.eot?#iefix')
+		format('embedded-opentype'),
+		url('#{facesContext.externalContext.requestContextPath}/resources/iconfont/MaterialIcons-Regular.woff')
+		format('woff'),
+		url('#{facesContext.externalContext.requestContextPath}/resources/iconfont/MaterialIcons-Regular.ttf')
+		format('truetype'),
+		url('#{facesContext.externalContext.requestContextPath}/resources/iconfont/MaterialIcons-Regular.svg#roundhand_freeregular')
+		format('svg');
+}
+
+.material-icons {
+	font-family: 'Material Icons';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px; /* Preferred icon size */
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+	/* Support for all WebKit browsers. */
+	-webkit-font-smoothing: antialiased;
+	/* Support for Safari and Chrome. */
+	text-rendering: optimizeLegibility;
+	/* Support for Firefox. */
+	-moz-osx-font-smoothing: graysfinle;
+	/* Support for IE. */
+	font-feature-settings: 'liga';
+}
+
+.material-icons.md-18 {
+	font-size: 18px;
+}
+
+.material-icons.md-20 {
+	font-size: 20px;
+}
+
+.material-icons.md-24 {
+	font-size: 24px;
+}
+
+.material-icons.md-32 {
+	font-size: 32px;
+}
+
+.material-icons.md-36 {
+	font-size: 36px;
+}
+
+.material-icons.md-48 {
+	font-size: 48px;
+}
+
+.material-icons.md-60 {
+	font-size: 60px;
+}
+
+.material-icons.md-dark {
+	color: rgba(0, 0, 0, 0.54);
+}
+
+.material-icons.md-dark.md-inactive {
+	color: rgba(0, 0, 0, 0.26);
+}
+
+.material-icons.md-light {
+	color: rgba(255, 255, 255, 1);
+}
+
+.material-icons.md-light.md-inactive {
+	color: rgba(255, 255, 255, 0.3);
+}

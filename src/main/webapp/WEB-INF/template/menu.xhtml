@@ -1,0 +1,251 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<aside class="main-sidebar">
+		<section class="sidebar">
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img src="#{request.contextPath}/resources/img/javoso.png"
+						class="img-circle" alt="User Image" />
+				</div>
+				<div class="pull-left info">
+					<p>#{sessaoBean.nomeUsuarioLogado}</p>
+					<p:link>
+						<i class="fa fa-circle text-success"></i> Online</p:link>
+				</div>
+			</div>
+			<ul class="sidebar-menu" data-widget="tree">
+				<li>
+					<p:link href="../dashboard/dashboard.xhtml">
+						<i class="fa fa-dashboard" />
+						<span>Dashboard</span>
+					</p:link>
+				</li>
+				<li class="treeview">
+					<p:link>
+						<i class="fa fa-tags"></i>
+						<span>Categoria</span>
+						<span class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+						</span>
+					</p:link>
+
+					<ul class="treeview-menu">
+						<li>
+							<p:link href="../categoria/cadastrar-categoria.xhtml">
+								<i class="fa fa-plus-circle"></i>
+									Cadastrar categoria
+							</p:link>
+						</li>
+						<li>
+							<p:link href="../categoria/pesquisar-categoria.xhtml">
+								<i class="fa fa-search"></i>
+									Pesquisar categorias
+							</p:link>
+						</li>
+					</ul>
+				</li>
+
+				<li class="treeview">
+					<p:link>
+						<i class="fa fa-cog"></i>
+						<span>Configurações</span>
+						<span class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+						</span>
+					</p:link>
+
+					<ul class="treeview-menu">
+						<li>
+							<p:link href="../configuracoes/configuracoes-email.xhtml">
+								<i class="fa fa-envelope"></i>
+									E-mail
+							</p:link>
+						</li>
+<!-- 						<li> -->
+<!-- 							<p:link href="../grupo/pesquisar-grupos-usuarios.xhtml"> -->
+<!-- 								<i class="fa fa-users"></i> -->
+<!-- 									Grupos usuários -->
+<!-- 							</p:link> -->
+<!-- 						</li> -->
+						<li>
+							<p:link href="../permissao/permissao.xhtml">
+								<i class="fa fa-key"></i>
+									Permissões
+							</p:link>
+						</li>
+						<li>
+							<p:link href="../usuario/pesquisar-usuarios.xhtml">
+								<i class="fa fa-user"></i>
+									Usuários
+							</p:link>
+						</li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<p:link>
+						<i class="fa fa-file"></i>
+						<span>Conteúdo de apoio</span>
+						<span class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+						</span>
+					</p:link>
+					<ul class="treeview-menu">
+						<li>
+							<p:link
+								href="../conteudo/cadastrar-conteudo-apoio.xhtml">
+								<i class="fa fa-plus-circle"></i>
+									Cadastrar Conteúdo
+							</p:link>
+						</li>
+						<li class="treeview">
+							<a>
+								<i class="fa fa-search"></i>
+								<span> Pesquisar Conteúdo </span>
+								<span class="pull-right-container"> <i
+									class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li class="treeview">
+									<p:link>
+										<i class="fa fa-laptop"></i>
+												Computação
+										<span class="pull-right-container"> <i
+											class="fa fa-angle-left pull-right"></i>
+										</span>
+									</p:link>
+									<ul class="treeview-menu">
+										<li>
+											<p:link
+												href="../conteudo/conteudo-apoio.xhtml?watch=#{pesquisarConteudoApoioController.codificarCategoriaFundamento()}">
+												<i class="fa fa-file-text-o"></i>
+													Fundamentos
+											</p:link>
+										</li>
+										<li>
+											<p:link
+												href="../conteudo/conteudo-apoio.xhtml?watch=#{pesquisarConteudoApoioController.codificarCategoriaTecnologia()}">
+												<i class="fa fa-circle-o"></i>
+													Tecnologias
+											</p:link>
+										</li>
+									</ul>
+								</li>
+								<li class="treeview">
+									<p:link>
+										<i class="fa fa-calculator"></i>
+										<span>Matematica</span>
+										<span class="pull-right-container"> <i
+											class="fa fa-angle-left pull-right"></i>
+										</span>
+									</p:link>
+									<ul class="treeview-menu">
+										<li>
+											<p:link
+												href="../conteudo/conteudo-apoio.xhtml?watch=#{pesquisarConteudoApoioController.codificarCategoriaMatematica()}">
+												<i class="fa fa-superscript"></i>
+													Matematica
+											</p:link>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<p:link>
+						<i class="fa fa-question-circle"></i>
+						<span>Questões</span>
+						<span class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+						</span>
+					</p:link>
+					<ul class="treeview-menu">
+						<li>
+							<p:link href="../questao/cadastrar-questao.xhtml">
+								<i class="fa fa-plus-circle"></i>
+									Cadastrar questão
+							</p:link>
+						</li>
+						<li>
+							<p:link href="../questao/pesquisar-questao.xhtml">
+								<i class="fa fa-search"></i>
+									Pesquisar questões
+							</p:link>
+						</li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<p:link>
+						<i class="fa fa-reply-all"></i>
+						<span>Resposta</span>
+						<span class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+						</span>
+					</p:link>
+
+					<ul class="treeview-menu">
+						<li>
+							<p:link href="../resposta/pesquisar-resposta.xhtml">
+								<i class="fa fa-search"></i>
+									Pesquisar respostas
+							</p:link>
+						</li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<p:link>
+						<i class="fa fa-list-alt"></i>
+						<span>Simulado</span>
+						<span class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+						</span>
+					</p:link>
+
+					<ul class="treeview-menu">
+						<li>
+							<p:link href="../simulado/cadastrar-simulado.xhtml">
+								<i class="fa fa-plus-circle"></i>
+									Cadastrar simulado
+							</p:link>
+						</li>
+						<li>
+							<p:link href="../simulado/pesquisar-simulado.xhtml">
+								<i class="fa fa-search"></i>
+									Pesquisar simulado
+							</p:link>
+						</li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<p:link>
+						<i class="fa fa-tags"></i>
+						<span>Sub-Categoria</span>
+						<span class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+						</span>
+					</p:link>
+
+					<ul class="treeview-menu">
+						<li>
+							<p:link href="../sub_categoria/cadastrar-sub-categoria.xhtml">
+								<i class="fa fa-plus-circle"></i>
+									Cadastrar sub-categoria
+							</p:link>
+						</li>
+						<li>
+							<p:link href="../sub_categoria/pesquisar-sub-categoria.xhtml">
+								<i class="fa fa-search"></i>
+									Pesquisar sub-categorias
+							</p:link>
+						</li>
+					</ul>
+				</li>	
+			</ul>
+		</section>
+	</aside>
+</ui:fragment>
