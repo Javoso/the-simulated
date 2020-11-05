@@ -41,10 +41,6 @@ public class CadastrarQuestaoController extends AbstractController{
 	
 	@Getter
 	@Setter
-	private Categoria categoria = new Categoria();
-	
-	@Getter
-	@Setter
 	private Alternativa alternativa = new Alternativa();
 	
 	@Getter
@@ -67,7 +63,6 @@ public class CadastrarQuestaoController extends AbstractController{
 		if(idParamentro != null) {
 			try {
 				questao = service.findById(idParamentro);
-				categoria = questao.getSubCategoria().getCategoria();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -78,7 +73,7 @@ public class CadastrarQuestaoController extends AbstractController{
 	
 	public void subCategoriasPorCategoria() {
 		try {
-			subCategorias = serviceSub.subCategoriasPorCategoria(categoria);
+			subCategorias = serviceSub.subCategoriasPorCategoria(questao.getCategoria());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -166,7 +161,6 @@ public class CadastrarQuestaoController extends AbstractController{
 	
 	public String limparCampos() {
 		questao = new Questao();
-		categoria = new Categoria();
 		return "/questao/cadastrar-questao.xhtml?faces-redirect=true";
 	}
 	

@@ -40,9 +40,6 @@ import lombok.ToString;
 @Table(name = "USUARIO")
 public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1140901365395325202L;
 
 	@Include

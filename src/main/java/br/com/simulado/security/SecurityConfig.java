@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/conteudo/conteudo-apoio.xhtml").hasAnyRole("ADMIN","USER")
 				.antMatchers("/dashboard/dashboard.xhtml").hasAnyRole("ADMIN","USER")
 				.antMatchers("/questao/cadastrar-questao.xhtml").hasRole("ADMIN")
-				.antMatchers("/questao/pesquisar-questao.xhtml").hasAnyRole("ADMIN","USER")
+				.antMatchers("/questao/pesquisar-questao.xhtml").hasAnyRole("ADMIN")
 				.antMatchers("/permissao/permissao.xhtml").hasRole("ADMIN")
 				.antMatchers("/resposta/**").hasAnyRole("ADMIN","USER")
 				.antMatchers("/simulado/**").hasAnyRole("ADMIN","USER")

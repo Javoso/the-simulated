@@ -52,7 +52,7 @@
 					<p:outputLabel value="Categoria: " />
 					<br />
 					<p:selectOneMenu id="categoria" required="true"
-						value="#{cadastrarQuestaoController.categoria}"
+						value="#{cadastrarQuestaoController.questao.categoria}"
 						converter="CategoriaConverter" autoWidth="false"
 						requiredMessage="Selecione a categoria">
 						<f:selectItem itemLabel="Selecione a categoria"

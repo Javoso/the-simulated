@@ -3,7 +3,6 @@ package br.com.simulado.models;
 import static java.util.Objects.isNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -69,14 +68,17 @@ public class Questao extends EntidadeGenerica<Long> implements Serializable {
 	private Boolean status = true;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinTable(name = "QUESTAO__SUB_CATEGORIA", joinColumns = {
-			@JoinColumn(name = "QUESTAO_ID") }, inverseJoinColumns = { @JoinColumn(name = "SUB_CATEGORIA_ID") })
-	private SubCategoria subCategoria = new SubCategoria();
+	@JoinColumn(name = "CATEGORIA_ID")
+	private Categoria categoria;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "SUB_CATEGORIA_ID")
+	private SubCategoria subCategoria;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "QUESTAO__ALTERNATIVA", joinColumns = { @JoinColumn(name = "QUESTAO_ID") }, inverseJoinColumns = {
-			@JoinColumn(name = "ALTERNATIVA_ID") })
-	private List<Alternativa> alternativas = new ArrayList<>();
+	@JoinColumn(name = "ALTERNATIVA_ID") })
+	private List<Alternativa> alternativas;
 
 	@Override
 	public boolean isAtivo() {
