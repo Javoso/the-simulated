@@ -13,9 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -35,7 +36,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @Table(name = "SUB_CATEGORIA")
-@Entity(name="subCategoria")
+@Entity(name = "subCategoria")
 public class SubCategoria extends EntidadeGenerica<Long> implements Serializable {
 
 	private static final long serialVersionUID = 3446684748142897229L;
@@ -47,12 +48,13 @@ public class SubCategoria extends EntidadeGenerica<Long> implements Serializable
 	private Long id;
 
 	@Column(name = "DATA_DE_CRIACAO")
+	@Temporal(TemporalType.DATE)
 	private Date dataDeCriacao = new Date();
 
 	@Type(type = "true_false")
 	@Column(name = "STATUS")
 	private Boolean status = true;
-	
+
 	@Column(name = "SUB_CATEGORIA_NOME")
 	private String nome;
 
@@ -60,20 +62,19 @@ public class SubCategoria extends EntidadeGenerica<Long> implements Serializable
 	private String descricao;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinTable(name = "SUB_CATEGORIA__CATEGORIA", joinColumns = {
-			@JoinColumn(name = "SUB_CATEGORIA_ID") }, inverseJoinColumns = { @JoinColumn(name = "CATEGORIA_ID") })
+	@JoinColumn(name = "CATEGORIA_ID")
 	private Categoria categoria = new Categoria();
 
 	@Override
 	public String codificarId() {
 		return new AES().codificar(getId().toString());
 	}
-	
+
 	@Override
 	public boolean isAtivo() {
 		return Objects.equals(status, true);
 	}
-	
+
 	@Override
 	public boolean isNova() {
 		return isNull(id);
@@ -83,6 +84,5 @@ public class SubCategoria extends EntidadeGenerica<Long> implements Serializable
 	public boolean isCadastrada() {
 		return !isNova();
 	}
-	
-	
+
 }

@@ -15,9 +15,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -49,6 +50,7 @@ public class ConteudoApoio extends EntidadeGenerica<Long> implements Serializabl
 	@Column(name = "ID")
 	private Long id;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "DATA_DE_CRIACAO")
 	private Date dataDeCriacao = new Date();
 
@@ -66,11 +68,13 @@ public class ConteudoApoio extends EntidadeGenerica<Long> implements Serializabl
 	private String descricao;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinTable(name = "CONTEUDO__SUB_CATEGORIA", joinColumns = {
-	@JoinColumn(name = "CONTEUDO_ID") }, inverseJoinColumns = { @JoinColumn(name = "SUB_CATEGORIA_ID") })
-	private SubCategoria subCategoria = new SubCategoria();
+	@JoinColumn(name = "CATEGORIA_ID")
+	private Categoria categoria;
 	
-
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "SUB_CATEGORIA_ID")
+	private SubCategoria subCategoria;
+	
 	@Override
 	public boolean isAtivo() {
 		return Objects.equals(status, true);

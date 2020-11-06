@@ -5,19 +5,20 @@ import br.com.simulado.util.AES;
 public class TestCriptografia {
 
 	public static void main(String[] args) {
-		AES AES = new AES();
+		AES aes = new AES();
 
 		String textoNormal = "Lucas Queiroz O Javoso";
 		Long id = 2038L;
 		String textoCriptografado = "";
 		String textoDescriptografado = "";
 		try {
-			textoCriptografado = AES.codificar(id.toString());
-			textoDescriptografado = AES.decodificar(textoCriptografado);
+			textoCriptografado = aes.codificar(id.toString());
+			textoDescriptografado = aes.decodificar(textoCriptografado);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+		System.out.println("Texto Normal: " + textoNormal);
 		System.out.println();
 		System.out.println("Texto Normal: " + id);
 		System.out.println();

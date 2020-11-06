@@ -1,8 +1,10 @@
 package br.com.simulado.models;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +21,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
@@ -48,6 +52,7 @@ public class Questao extends EntidadeGenerica<Long> implements Serializable {
 	@Column(name = "ID")
 	private Long id;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "DATA_DE_CRIACAO")
 	private Date dataDeCriacao = new Date();
 
@@ -70,15 +75,15 @@ public class Questao extends EntidadeGenerica<Long> implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CATEGORIA_ID")
 	private Categoria categoria;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "SUB_CATEGORIA_ID")
 	private SubCategoria subCategoria;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "QUESTAO__ALTERNATIVA", joinColumns = { @JoinColumn(name = "QUESTAO_ID") }, inverseJoinColumns = {
-	@JoinColumn(name = "ALTERNATIVA_ID") })
-	private List<Alternativa> alternativas;
+			@JoinColumn(name = "ALTERNATIVA_ID") })
+	private List<Alternativa> alternativas = new ArrayList<>();
 
 	@Override
 	public boolean isAtivo() {
@@ -99,7 +104,7 @@ public class Questao extends EntidadeGenerica<Long> implements Serializable {
 	public String codificarId() {
 		return new AES().codificar(getId().toString());
 	}
-	
+
 	@Transient
 	public void adicionarVariasAlternativas(List<Alternativa> alternativas) {
 		this.alternativas.addAll(alternativas);
@@ -107,53 +112,53 @@ public class Questao extends EntidadeGenerica<Long> implements Serializable {
 
 	@Transient
 	public void adicionarUmaAlternativa(Alternativa alternativa) throws Exception {
-		if(alternativa != null && alternativaNaoAdicionada(alternativa)) {
+		if (alternativa != null && alternativaNaoAdicionada(alternativa)) {
 			alternativa.setQuestao(this);
 			this.alternativas.add(alternativa);
-		}
-		else
+		} else {
 			throw new Exception("Objeto nulo ou Já adicionado");
+		}
 	}
-	
+
 	@Transient
 	public void editarUmaAlternativa(Alternativa alternativa) throws Exception {
-		if(alternativa != null && alternativaNaoAdicionada(alternativa)) {
+		if (alternativa != null && alternativaNaoAdicionada(alternativa)) {
 			int index = this.alternativas.indexOf(alternativa);
 			this.alternativas.set(index, alternativa);
-		}
-		else
+		} else {
 			throw new Exception("Objeto não encontrado");
+		}
 	}
-	
+
 	@Transient
 	public void removerUmaAlternativa(Alternativa alternativa) throws Exception {
-		if(alternativa != null) {
+		if (alternativa != null) {
 			this.alternativas.remove(alternativa);
-		}
-		else
+		} else {
 			throw new Exception("Objeto não encontrado");
+		}
 	}
-	
+
 	@Transient
 	public boolean alternativaJaAdicionada(Alternativa alternativa) throws Exception {
-		if(alternativa != null) {
+		if (nonNull(alternativa)) {
 			return this.alternativas.stream().anyMatch(a -> a.equals(alternativa));
-		}
-		else
+		} else {
 			throw new Exception("Objeto não encontrado");
+		}
 	}
-	
+
 	@Transient
 	public boolean alternativaNaoAdicionada(Alternativa alternativa) throws Exception {
 		return !alternativaJaAdicionada(alternativa);
 	}
-	
+
 	@Transient
 	public boolean questaoTemAlternativaCorreta() throws Exception {
-		 if(alternativas.stream().anyMatch(a->a.eCorreta())) 
-			 return true;
-		 else 
-			 throw new Exception("Nas alternativas da questão deve constar uma questão correta");
+		if (alternativas.stream().anyMatch(a -> a.eCorreta()))
+			return true;
+		else
+			throw new Exception("Nas alternativas da questão deve constar uma questão correta");
 	}
 
 	@Override
@@ -177,13 +182,15 @@ public class Questao extends EntidadeGenerica<Long> implements Serializable {
 		if (enunciado == null) {
 			if (other.enunciado != null)
 				return false;
-		} else if (!enunciado.equals(other.enunciado))
+		} else if (!enunciado.equals(other.enunciado)) {
 			return false;
+		}
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		return true;
 	}
 

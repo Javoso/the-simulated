@@ -5,31 +5,28 @@ import java.util.List;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.poi.ss.formula.functions.T;
-
 import br.com.simulado.dao.filter.Filter;
 
 
-public interface DAO<T> {
+public interface DAO<E> {
 	
-	public void save(T t);
+	public void save(E e);
 	
-	public void mudarStatus(T t);
+	public void mudarStatus(E e);
 
-	public T merge(T t);
+	public E merge(E e);
 	
-	public T findById(Long id);
+	public E findById(Long id);
 	
 	public Long count(Filter filter);
 	
-	public List<T> pesquisar(int primeiro, int ultimo, Filter filter);
+	public List<E> pesquisar(int primeiro, int ultimo, Filter filter);
 	
-	public List<T> pesquisar(Filter filter);
+	public List<E> pesquisar(Filter filter);
 	
-	public List<T> todas();
+	public List<E> todas();
 	
-	public Predicate[] restricoes(Filter filter, Root<T> root);
+	public Predicate[] restricoes(Filter filter, Root<E> root);
 	
-	
-	
+
 }

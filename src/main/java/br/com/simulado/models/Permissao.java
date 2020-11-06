@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -44,6 +46,7 @@ public class Permissao extends EntidadeGenerica<Long> implements Serializable {
 	@Column(name = "NOME")
 	private String nome;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "DATA_DE_CRIACAO")
 	private Date dataDeCriacao = new Date();
 

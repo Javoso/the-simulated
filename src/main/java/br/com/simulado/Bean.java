@@ -47,13 +47,13 @@ public class Bean implements Serializable {
 		this.link = link;
 	}
 	
-	public void listarDados() {
+	public String listarDados() {
 		if (isNotBlank(link)) {
 			teste(link);
+			return getYouTubeId(link);
+		} else {
+			return "";
 		}
-//			return getYouTubeId(conteudo.getLink());
-//		} else
-//			return "";
 	}
 
 	private String getYouTubeId(String youTubeUrl) {
@@ -75,22 +75,21 @@ public class Bean implements Serializable {
 	public void teste(String linkVideo) {
 		try {
 			Bean youtube = new Bean();
-			RespostaYoutube respostaYoutube = youtube.obterDadosVideo(linkVideo);
-
+			System.out.println(youtube.obterDadosVideo(linkVideo));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public RespostaYoutube obterDadosVideo(String URL) {
+	public RespostaYoutube obterDadosVideo(String url) {
 
 		Gson gson = new Gson();
 		String retornoJson = null;
 		try {
 			// Faz o split para obter o ID do video
-			String ID = URL.split("v=")[1];
-			String link = API_URL + "id=" + ID + "&" + "key=" + KEY + "&" + "part=" + PART;
+			String id = url.split("v=")[1];
+			String link = API_URL + "id=" + id + "&" + "key=" + KEY + "&" + "part=" + PART;
 			System.out.println(link);
 			System.out.println("\n LINK \n");
 			retornoJson = lerUrl(link);

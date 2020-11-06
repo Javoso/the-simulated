@@ -32,7 +32,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Table(name = "ALTERNATIVA")
-@Entity(name="alternativa")
+@Entity(name = "alternativa")
 public class Alternativa extends EntidadeGenerica<Long> implements Serializable {
 
 	private static final long serialVersionUID = -7391326107937508194L;
@@ -49,23 +49,23 @@ public class Alternativa extends EntidadeGenerica<Long> implements Serializable 
 	@Type(type = "true_false")
 	@Column(name = "STATUS")
 	private Boolean status = true;
-	
+
 	@Column(name = "ENUNCIADO", length = 2000)
 	private String enunciado;
-	
+
 	@Type(type = "true_false")
 	@Column(name = "CORRETA")
 	private Boolean correta = false;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "QUESTAO_ID")
-	private Questao questao = new Questao();
+	private Questao questao;
 
 	@Override
 	public boolean isAtivo() {
 		return Objects.equals(status, true);
 	}
-	
+
 	@Override
 	public boolean isNova() {
 		return isNull(id);
@@ -75,12 +75,12 @@ public class Alternativa extends EntidadeGenerica<Long> implements Serializable 
 	public boolean isCadastrada() {
 		return !isNova();
 	}
-	
+
 	@Override
 	public String codificarId() {
 		return new AES().codificar(getId().toString());
 	}
-	
+
 	public boolean eCorreta() {
 		return correta;
 	}
@@ -106,16 +106,16 @@ public class Alternativa extends EntidadeGenerica<Long> implements Serializable 
 		if (enunciado == null) {
 			if (other.enunciado != null)
 				return false;
-		} else if (!enunciado.equals(other.enunciado))
+		} else if (!enunciado.equals(other.enunciado)) {
 			return false;
+		}
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		return true;
 	}
-	
-	
-	
+
 }

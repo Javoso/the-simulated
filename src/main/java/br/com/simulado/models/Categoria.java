@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -45,6 +47,7 @@ public class Categoria extends EntidadeGenerica<Long> implements Serializable {
 	@Column(name = "ID")
 	private Long id;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "DATA_DE_CRIACAO")
 	private Date dataDeCriacao = new Date();
 
