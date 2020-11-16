@@ -17,6 +17,10 @@
 
 	<ui:define name="titulo">
 		Questões
+		
+		<p:button value="Cadastrar" title="Cadastrar questão"
+			outcome="/questao/cadastrar-questao.xhtml" icon="fa fa-plus"
+			styleClass="btn btn-sm pull-right" />
 	</ui:define>
 
 	<ui:define name="sub-titulo">
@@ -213,11 +217,9 @@
 
 			<p:dialog header="Enunciado da Questão" widgetVar="enunciado-questao"
 				id="enunciado-questao" width="400">
-
-				<p>#{pesquisarQuestaoController.selecionada.enunciado}</p>
-
+				<h:outputText escape="false"
+					value="#{pesquisarQuestaoController.selecionada.enunciado}" />
 			</p:dialog>
-
 
 			<p:dialog header="Alternativas da Questão"
 				widgetVar="alternativas-questao" id="alternativas-questao"
@@ -255,7 +257,7 @@
 					</p:column>
 
 					<p:column headerText="Enunciado" styleClass="centralizado">
-						<p>#{alternativa.enunciado}</p>
+						<h:outputText escape="false" value="#{alternativa.enunciado}"/>
 					</p:column>
 
 					<p:column headerText="Correta" styleClass="centralizado"

@@ -17,6 +17,10 @@
 
 	<ui:define name="titulo">
 		Categorias
+		
+		<p:button value="Cadastrar" title="Cadastrar categoria"
+			outcome="/categoria/cadastrar-categoria.xhtml" icon="fa fa-plus"
+			styleClass="btn btn-sm pull-right" />
 	</ui:define>
 
 	<ui:define name="sub-titulo">
@@ -28,16 +32,16 @@
 		<h:form id="formulario" prependId="false">
 
 			<p:messages id="msg" closable="true" />
-			
+
 			<div jsf:id="panel-filter" class="ui-fluid ui-g">
-			
+
 				<div class="ui-g-12 ui-md-6 ui-lg-2">
 					<p:outputLabel for="nome" value="Nome: " />
 					<br />
 					<p:inputText id="nome" placeholder="Digite o nome"
 						value="#{pesquisarCategoriaController.filter.nome}" />
 				</div>
-				
+
 				<div class="ui-g-12 ui-md-6 ui-lg-2">
 					<p:outputLabel value="Tipo da Categoria: " for="tipo" />
 					<br />
@@ -49,13 +53,12 @@
 							var="tipo" itemLabel="#{tipo.nome}" itemValue="#{tipo}" />
 					</p:selectOneMenu>
 				</div>
-	
+
 				<div class="ui-g-12 ui-md-4 ui-lg-2">
 					<p:commandButton value="Pesquisar" id="pesquisar"
 						update="categorias-table msg panel-filter-ativos"
-						process="@this panel-filter"
-						style="margin-top: 25px;"
-						styleClass="btn-blue btn-panel-filter ui-priority-primary" 
+						process="@this panel-filter" style="margin-top: 25px;"
+						styleClass="btn-blue btn-panel-filter ui-priority-primary"
 						icon="fa fa-search"
 						action="#{pesquisarCategoriaController.pesquisar()}" />
 				</div>
@@ -72,7 +75,7 @@
 						update="panel-filter panel-filter-ativos msg categorias-table"
 						rendered="#{not empty pesquisarCategoriaController.filter.nome}"
 						icon="fa fa-close" iconPos="right"
-						styleClass="btn-blue btn-panel-filter"/>
+						styleClass="btn-blue btn-panel-filter" />
 				</div>
 				<div style="margin-right: 5px;">
 					<p:commandButton id="filter-ativo-tipo"
@@ -96,10 +99,11 @@
 				currentPageReportTemplate="{currentPage} de {totalPages}">
 
 				<p:column headerText="Ativo" width="80" styleClass="centralizado">
-					<p:commandLink 	action="#{pesquisarCategoriaController.mudarStatus()}"
-						update="categorias-table msg" process="@this" 
+					<p:commandLink
+						action="#{pesquisarCategoriaController.mudarStatus()}"
+						update="categorias-table msg" process="@this"
 						title="#{categoria.ativo ? 'Desativar' : 'Ativar'}">
-						
+
 						<h:panelGroup rendered="#{categoria.ativo}">
 							<i class="material-icons" style="color: green;">check_circle</i>
 						</h:panelGroup>

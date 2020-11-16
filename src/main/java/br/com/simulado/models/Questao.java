@@ -56,7 +56,7 @@ public class Questao extends EntidadeGenerica<Long> implements Serializable {
 	@Column(name = "DATA_DE_CRIACAO")
 	private Date dataDeCriacao = new Date();
 
-	@Column(name = "ENUNCIADO", length = 2000)
+	@Column(name = "ENUNCIADO", length = 7000)
 	private String enunciado;
 
 	@Column(name = "REFERENCIA")

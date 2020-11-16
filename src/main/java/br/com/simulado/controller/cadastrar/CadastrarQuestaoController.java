@@ -22,13 +22,13 @@ import lombok.Setter;
 
 @Named
 @ViewScoped
-public class CadastrarQuestaoController extends AbstractController{
+public class CadastrarQuestaoController extends AbstractController {
 
 	private static final long serialVersionUID = 4195373868273708608L;
 
 	@Inject
 	private QuestaoService service;
-	
+
 	@Inject
 	private SubCategoriaService serviceSub;
 
@@ -37,30 +37,30 @@ public class CadastrarQuestaoController extends AbstractController{
 
 	@Getter
 	@Setter
-	private Questao questao = new Questao(); 
-	
+	private Questao questao = new Questao();
+
 	@Getter
 	@Setter
 	private Alternativa alternativa = new Alternativa();
-	
+
 	@Getter
 	@Setter
 	private Alternativa alternativaSelecionada = new Alternativa();
-	
+
 	@Getter
 	@Setter
 	private List<Categoria> categorias = new ArrayList<>();
-	
+
 	@Getter
 	@Setter
 	private List<SubCategoria> subCategorias = new ArrayList<>();
 
 	@Override
 	public void init() {
-		
+
 		String idParamentro = getParamNameDecodificado("identificador");
-		
-		if(idParamentro != null) {
+
+		if (idParamentro != null) {
 			try {
 				questao = service.findById(idParamentro);
 			} catch (Exception e) {
@@ -70,15 +70,16 @@ public class CadastrarQuestaoController extends AbstractController{
 		categorias = serviceCat.categorias();
 		subCategoriasPorCategoria();
 	}
-	
+
 	public void subCategoriasPorCategoria() {
-		try {
-			subCategorias = serviceSub.subCategoriasPorCategoria(questao.getCategoria());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}	
-	
+		if (nonNull(questao.getCategoria()))
+			try {
+				subCategorias = serviceSub.subCategoriasPorCategoria(questao.getCategoria());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+
 	public boolean alternativaJaAdicionada() {
 		try {
 			return questao.alternativaJaAdicionada(alternativa);
@@ -87,9 +88,9 @@ public class CadastrarQuestaoController extends AbstractController{
 		}
 		return false;
 	}
-	
+
 	public void adicionarAlternativa() {
-		if(nonNull(questao.getAlternativas()) && nonNull(alternativa)) {
+		if (nonNull(questao.getAlternativas()) && nonNull(alternativa)) {
 			try {
 				questao.adicionarUmaAlternativa(alternativa);
 				onSuccess("Alternativa adicionada com sucesso");
@@ -101,9 +102,9 @@ public class CadastrarQuestaoController extends AbstractController{
 			}
 		}
 	}
-	
+
 	public void editarAlternativa() {
-		if(nonNull(questao.getAlternativas()) && nonNull(alternativa)) {
+		if (nonNull(questao.getAlternativas()) && nonNull(alternativa)) {
 			try {
 				questao.editarUmaAlternativa(alternativa);
 				onSuccess("Alternativa editada com sucesso");
@@ -115,9 +116,9 @@ public class CadastrarQuestaoController extends AbstractController{
 			}
 		}
 	}
-	
+
 	public void removerAlternativa() {
-		if(nonNull(questao.getAlternativas()) && nonNull(alternativaSelecionada)) {
+		if (nonNull(questao.getAlternativas()) && nonNull(alternativaSelecionada)) {
 			try {
 				questao.removerUmaAlternativa(alternativaSelecionada);
 				onSuccess("Alternativa removida com sucesso");
@@ -129,41 +130,40 @@ public class CadastrarQuestaoController extends AbstractController{
 			}
 		}
 	}
-	
-	
+
 	public void save() {
 		try {
-			if(questao.questaoTemAlternativaCorreta()) {
+			if (questao.questaoTemAlternativaCorreta()) {
 				service.save(questao);
 				onSuccessWithFlash("Questao cadastrada com sucesso");
 			}
-			//return "/questao/pesquisar-questao.xhtml?faces-redirect=true";
+			// return "/questao/pesquisar-questao.xhtml?faces-redirect=true";
 		} catch (Exception e) {
-			onError("Não foi possivel cadastrar a questao, "+e.getMessage());
+			onError("Não foi possivel cadastrar a questao, " + e.getMessage());
 			e.printStackTrace();
 		}
 		limparCampos();
-		//return null;
+		// return null;
 	}
-	
+
 	public void update() {
 		try {
 			service.update(questao);
 			onSuccessWithFlash("Questao atualizada com sucesso");
-			//return "/questao/pesquisar-questao.xhtml?faces-redirect=true";
+			// return "/questao/pesquisar-questao.xhtml?faces-redirect=true";
 		} catch (Exception e) {
 			onError("Não foi possivel atualizar a questao, " + e.getMessage());
 			e.printStackTrace();
 		}
 		limparCampos();
-		//return null;
+		// return null;
 	}
-	
+
 	public String limparCampos() {
 		questao = new Questao();
 		return "/questao/cadastrar-questao.xhtml?faces-redirect=true";
 	}
-	
+
 	public void limparAlternativa() {
 		alternativa = new Alternativa();
 	}

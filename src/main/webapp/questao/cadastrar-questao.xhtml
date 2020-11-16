@@ -18,6 +18,9 @@
 
 	<ui:define name="titulo">
 		Questão
+		<p:button value="Listar" title="Listar todas as questões"
+			outcome="/questao/pesquisar-questao.xhtml" icon="fa fa-list"
+			styleClass="btn btn-sm pull-right" />
 	</ui:define>
 
 	<ui:define name="sub-titulo">
@@ -104,10 +107,6 @@
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{currentPage} de {totalPages}">
 
-					<p:column headerText="ID" styleClass="centralizado">
-						<h:outputLabel value="#{alternativa.id}" />
-					</p:column>
-
 					<p:column headerText="Enunciado" styleClass="centralizado">
 						<h:outputLabel value="#{alternativa.enunciado}" />
 					</p:column>
@@ -164,7 +163,7 @@
 
 				</p:dataTable>
 			</div>
-
+			
 			<hr />
 
 			<div>
@@ -211,17 +210,13 @@
 						<p:outputLabel value="Enunciado: " for="enunciado-dialog"
 							style="marrgin-right: 10px" />
 						<br />
-						<p:inputTextarea
+						<p:textEditor 
 							value="#{cadastrarQuestaoController.alternativa.enunciado}"
-							id="enunciado-dialog" styleClass="form-control" required="true"
-							requiredMessage="Campo 'Enunciado' obrigatório" maxlength="300"
-							counterTemplate="{0} caracteres restantes."
-							counter="display-enunciado" />
+							id="enunciado-dialog" required="true"
+							requiredMessage="Campo 'Enunciado' obrigatório" height="80"
+							/>
 					</h:panelGroup>
 
-					<br />
-					<br />
-					<h:outputText id="display-enunciado" />
 
 					<f:facet name="footer">
 						<hr />

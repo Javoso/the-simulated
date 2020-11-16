@@ -12,7 +12,7 @@
 	<!-- 	</f:metadata> -->
 
 	<ui:define name="title-page">
-		#{cadastrarCategoriaController.categoria.nova ? 'Cadastrar' : 'Editar'} categoria
+		#{cadastrarCategoriaController.categoria.nova ? 'Cadastrar' : 'Editar'} categoria	
 	</ui:define>
 
 	<ui:define name="imagem">
@@ -20,6 +20,11 @@
 
 	<ui:define name="titulo">
 		Categoria
+		
+		<p:button value="Listar" title="Listar todas as categorias"
+			outcome="/categoria/pesquisar-categoria.xhtml" icon="fa fa-list"
+			styleClass="btn btn-sm pull-right" />
+
 	</ui:define>
 
 	<ui:define name="sub-titulo">

@@ -13,8 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -50,7 +52,8 @@ public class Alternativa extends EntidadeGenerica<Long> implements Serializable 
 	@Column(name = "STATUS")
 	private Boolean status = true;
 
-	@Column(name = "ENUNCIADO", length = 2000)
+	@Column(name = "ENUNCIADO")
+	@Lob
 	private String enunciado;
 
 	@Type(type = "true_false")
@@ -83,6 +86,11 @@ public class Alternativa extends EntidadeGenerica<Long> implements Serializable 
 
 	public boolean eCorreta() {
 		return correta;
+	}
+	
+	@Transient
+	public String getImage() {
+		return getEnunciado().replaceAll("\\(", "").replaceAll("\\)","");
 	}
 
 	@Override
