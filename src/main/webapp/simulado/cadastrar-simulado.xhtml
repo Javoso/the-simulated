@@ -4,16 +4,17 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	template="/WEB-INF/template/layout.xhtml">
 
-	
+
 	<ui:define name="title-page">
 		Cadastrar simulado
 	</ui:define>
-	
+
 	<ui:define name="imagem">
 	</ui:define>
-	
+
 	<ui:define name="titulo">
 		Simulado
 	</ui:define>
@@ -24,7 +25,392 @@
 
 	<ui:define name="conteudo">
 
+		<h:form id="frm" prependId="false">
+
+			<p:messages id="msg" closable="true" />
+
+			<div jsf:id="panel" class="ui-fluid ui-g">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<p:outputLabel value="Nome: " for="nome" />
+					<br />
+					<p:inputText id="nome"
+						value="#{cadastrarSimuladoController.simulado.nome}"
+						required="true" placeholder="Escreva aqui o nome"
+						requiredMessage="Campo 'Nome' obrigatório" />
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<p:outputLabel value="Tipo da Simulado: " for="tipo" />
+					<br />
+					<p:selectOneMenu id="tipo" autoWidth="false"
+						value="#{cadastrarSimuladoController.simulado.tipoSimulado}"
+						required="true"
+						requiredMessage="Campo 'Tipo do Simulado' obrigatório">
+
+						<f:selectItem itemLabel="Selecione um tipo"
+							noSelectionOption="true" />
+						<f:selectItems value="#{cadastrarSimuladoController.tipos}"
+							var="tipo" itemLabel="#{tipo.nome}" itemValue="#{tipo}" />
+					</p:selectOneMenu>
+				</div>
+			</div>
+
+			<br />
+
+			<p:panel id="basic" header="Questões para adicionar no simulado">
+
+				<p:messages id="msg-dlg" closable="true" />
+
+				<div jsf:id="panel-filter" class="ui-fluid ui-g">
+
+					<div class="ui-g-12 ui-md-6 ui-lg-3">
+						<p:outputLabel value="Categoria:" />
+						<br />
+						<p:selectOneMenu id="categoria"
+							value="#{cadastrarSimuladoController.filter.categoria}"
+							converter="CategoriaConverter" autoWidth="false">
+							<f:selectItem itemLabel="Selecione a categoria"
+								noSelectionOption="true" />
+							<f:selectItems value="#{pesquisarCategoriaController.categorias}"
+								var="categoria" itemLabel="#{categoria.nome}"
+								itemValue="#{categoria}" />
+							<p:ajax update="panel-select-sub-categoria msg-dlg"
+								process="@this"
+								listener="#{cadastrarSimuladoController.pesquisarSubCategoria()}" />
+						</p:selectOneMenu>
+					</div>
+
+					<div class="ui-g-12 ui-md-6 ui-lg-3">
+						<h:panelGroup id="panel-select-sub-categoria">
+							<p:outputLabel value="Sub Categoria:" />
+							<br />
+							<p:selectOneMenu id="subCategoria" autoWidth="false"
+								value="#{cadastrarSimuladoController.filter.subCategoria}"
+								converter="SubCategoriaConverter">
+
+								<f:selectItem itemLabel="Selecione uma sub categoria"
+									noSelectionOption="false" />
+								<f:selectItems
+									value="#{cadastrarSimuladoController.subCategorias}"
+									var="subCategoria" itemLabel="#{subCategoria.nome}"
+									itemValue="#{subCategoria}" />
+							</p:selectOneMenu>
+						</h:panelGroup>
+					</div>
+
+					<div class="ui-g-12 ui-md-4 ui-lg-2">
+						<p:commandButton value="Pesquisar" id="pesquisar"
+							update="questoes-table msg-dlg panel-filter-ativos dialogo-itens"
+							process="@this panel-filter" style="margin-top: 25px;"
+							styleClass="btn-blue btn-panel-filter ui-priority-primary"
+							icon="fa fa-search" oncomplete="PF('dialogo-itens').show()"
+							action="#{cadastrarSimuladoController.pesquisar()}" />
+					</div>
+					<p:defaultCommand target="pesquisar" />
+				</div>
+
+
+				<div jsf:id="panel-filter-ativos" class="ui-fluid ui-g">
+
+					<div style="margin-right: 5px;">
+						<p:commandButton id="filter-ativo-categoria"
+							value="#{cadastrarSimuladoController.filter.categoria.nome}"
+							process="@this"
+							action="#{cadastrarSimuladoController.resetFilterCategoria()}"
+							update="panel-filter panel-filter-ativos msg questoes-table"
+							rendered="#{cadastrarSimuladoController.filter.categoria != null}"
+							icon="fa fa-close" iconPos="right"
+							styleClass="btn-blue btn-panel-filter" />
+					</div>
+					<div style="margin-right: 5px;">
+						<p:commandButton id="filter-ativo-sub-categoria"
+							value="#{cadastrarSimuladoController.filter.subCategoria.nome}"
+							process="@this"
+							action="#{cadastrarSimuladoController.resetFilterSubCategoria()}"
+							update="panel-filter panel-filter-ativos msg questoes-table"
+							rendered="#{cadastrarSimuladoController.filter.subCategoria != null}"
+							icon="fa fa-close" iconPos="right"
+							styleClass="btn-blue btn-panel-filter" />
+					</div>
+
+				</div>
+
+				<br />
+
+				<h:panelGroup styleClass="ui-fluid ">
+
+					<p:outputLabel value="Questões adicionadas" />
+
+					<p:dataTable id="itens-table" styleClass="table resp" var="questao"
+						paginatorAlwaysVisible="false" reflow="true"
+						value="#{cadastrarSimuladoController.simulado.questoes}"
+						rowIndexVar="index" paginator="true" rows="10" scrollHeight="150"
+						scrollable="true" rowsPerPageTemplate="10, 20" lazy="true"
+						paginatorPosition="top"
+						emptyMessage="Nenhuma informação encontrada."
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						currentPageReportTemplate="{currentPage} de {totalPages}">
+
+						<p:column headerText="#"
+							styleClass="centralizado #{questao.nova ? 'GoldenRod' : ''}"
+							width="40">
+						#{index + 1}
+					</p:column>
+
+						<p:column headerText="Enunciado" styleClass="centralizado"
+							width="70">
+							<p:commandLink
+								title="Clique aqui para ver o enunciado da questão"
+								oncomplete="PF('enunciado-questao').show()" process="@this"
+								update="enunciado-questao">
+								<i class="material-icons" style="color: #00c0ef;">description</i>
+								<f:setPropertyActionListener value="#{questao}"
+									target="#{cadastrarSimuladoController.selecionada}" />
+								<p:ajax update="enunciado-questao" />
+							</p:commandLink>
+						</p:column>
+
+						<p:column headerText="Alternativas" styleClass="centralizado"
+							width="70">
+							<p:commandLink process="@this" update="alternativas-questao"
+								title="Clique aqui para ver as alternativas da questão"
+								oncomplete="PF('alternativas-questao').show()">
+								<i class="material-icons" style="color: #00c0ef;">format_list_bulleted</i>
+								<f:setPropertyActionListener value="#{questao}"
+									target="#{cadastrarSimuladoController.selecionada}" />
+							</p:commandLink>
+						</p:column>
+
+						<p:column headerText="Imagem" styleClass="centralizado" width="70">
+							<p:commandLink process="@this" update="imagem-questao"
+								rendered="#{questao.linkImagem ne ''}"
+								title="Clique aqui para ver a imagem da questão"
+								oncomplete="PF('imagem-questao').show()">
+								<i class="material-icons" style="color: #00c0ef;">wallpaper</i>
+								<f:setPropertyActionListener value="#{questao.linkImagem}"
+									target="#{cadastrarSimuladoController.linkImagem}" />
+							</p:commandLink>
+							<p:outputLabel value="Sem Imagem"
+								rendered="#{questao.linkImagem eq ''}" />
+						</p:column>
+
+						<p:column headerText="Categoria" width="120"
+							styleClass="centralizado">
+							<h:outputLabel value="#{questao.subCategoria.categoria.nome}" />
+						</p:column>
+
+						<p:column headerText="SubCategoria" width="90"
+							styleClass="centralizado">
+							<h:outputLabel value="#{questao.subCategoria.nome}" />
+						</p:column>
+
+						<p:column headerText="Data de cadastro" width="90"
+							styleClass="centralizado">
+							<h:outputLabel value="#{questao.dataDeCriacao}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputLabel>
+						</p:column>
+
+						<p:column headerText="Remover" styleClass="centralizado"
+							width="60">
+							<p:commandLink
+								action="#{cadastrarSimuladoController.removerQuestaoDoSimulado(questao)}"
+								title="Remover" process="@this"
+								update="questoes-table itens-table">
+
+								<h:panelGroup>
+									<i class="material-icons Red">remove_circle</i>
+								</h:panelGroup>
+
+								<p:confirm header="Confirmação"
+									message="Tem certeza que deseja remover a questão do simulado?"
+									icon="pi pi-exclamation-triangle" />
+							</p:commandLink>
+
+							<p:confirmDialog global="true">
+								<p:commandButton value="Sim" type="button"
+									styleClass="ui-confirmdialog-yes button-green"
+									icon="pi pi-check" />
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no button-red" icon="pi pi-times" />
+							</p:confirmDialog>
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</p:panel>
+
+			<br />
+
+			<h:panelGroup layout="block" styleClass="row">
+
+				<div class="col-md-12">
+					<p:commandButton value="Salvar" styleClass="button-blue"
+						action="#{cadastrarSimuladoController.save()}"
+						icon="fa fa-floppy-o" update="frm frm:msg"
+						rendered="#{cadastrarSimuladoController.simulado.nova}" />
+
+					<p:commandButton styleClass="button-blue" value="Atualizar"
+						action="#{cadastrarSimuladoController.update()}"
+						icon="fa fa-pencil" update="frm frm:msg"
+						rendered="#{cadastrarSimuladoController.simulado.cadastrada}" />
+
+					<p:spacer width="5px" />
+
+					<p:button value="Cancelar" styleClass="button-orange"
+						icon="fa fa-ban" />
+				</div>
+
+			</h:panelGroup>
+		</h:form>
+
+		<h:form id="frm-dlg" prependId="false">
+
+			<!-- DIALOGO-QUESTÕES -->
+
+			<p:dialog id="dialogo-itens" widgetVar="dialogo-itens"
+				draggable="false" resizable="false" responsive="true" modal="true"
+				showEffect="clip" width="800" hideEffect="clip"
+				header="Selecione a questão para adicionar ao simulado">
+
+				<p:dataTable id="questoes-table"
+					value="#{cadastrarSimuladoController.questoes}" var="questao"
+					paginator="true" rows="10" rowsPerPageTemplate="10, 20" lazy="true"
+					paginatorPosition="top" paginatorAlwaysVisible="false"
+					scrollHeight="150" rowKey="#{questao.id}" scrollable="true"
+					emptyMessage="Nenhuma informação encontrada." reflow="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{currentPage} de {totalPages}">
+
+					<p:column headerText="Enunciado" styleClass="centralizado"
+						width="70">
+						<p:commandLink title="Clique aqui para ver o enunciado da questão"
+							oncomplete="PF('enunciado-questao').show()" process="@this"
+							update="enunciado-questao">
+							<i class="material-icons" style="color: #00c0ef;">description</i>
+							<f:setPropertyActionListener value="#{questao}"
+								target="#{cadastrarSimuladoController.selecionada}" />
+							<p:ajax update="enunciado-questao" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column headerText="Alternativas" styleClass="centralizado"
+						width="70">
+						<p:commandLink process="@this" update="alternativas-questao"
+							title="Clique aqui para ver as alternativas da questão"
+							oncomplete="PF('alternativas-questao').show()">
+							<i class="material-icons" style="color: #00c0ef;">format_list_bulleted</i>
+							<f:setPropertyActionListener value="#{questao}"
+								target="#{cadastrarSimuladoController.selecionada}" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column headerText="Categoria" width="120"
+						styleClass="centralizado">
+						<h:outputLabel value="#{questao.subCategoria.categoria.nome}" />
+					</p:column>
+
+					<p:column headerText="SubCategoria" width="90"
+						styleClass="centralizado">
+						<h:outputLabel value="#{questao.subCategoria.nome}" />
+					</p:column>
+
+					<p:column headerText="Data de cadastro" width="90"
+						styleClass="centralizado">
+						<h:outputLabel value="#{questao.dataDeCriacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputLabel>
+					</p:column>
+
+					<p:column styleClass="centralizado" width="120">
+						<p:commandLink title="Adicionar questão"
+							update="questoes-table itens-table"
+							rendered="#{not cadastrarSimuladoController.pertenceAoSimulado(questao)}"
+							action="#{cadastrarSimuladoController.adicionaQuestaoNoSimulado(questao)}">
+							<i class="material-icons Green">add</i>
+						</p:commandLink>
+
+						<p:commandLink
+							rendered="#{cadastrarSimuladoController.pertenceAoSimulado(questao)}"
+							action="#{cadastrarSimuladoController.removerQuestaoDoSimulado(questao)}"
+							title="Remover" process="@this"
+							update="questoes-table itens-table">
+
+							<h:panelGroup>
+								<i class="material-icons Red">remove_circle</i>
+							</h:panelGroup>
+
+							<p:confirm header="Confirmação"
+								message="Tem certeza que deseja remover a questão do simulado?"
+								icon="pi pi-exclamation-triangle" />
+
+						</p:commandLink>
+
+					</p:column>
+
+				</p:dataTable>
+
+				<h:outputLabel
+					value="Total de #{cadastrarSimuladoController.questoes.size()} questão(ões)"
+					id="total-produtos" styleClass="myLabel" />
+			</p:dialog>
+
+			<!-- DIALOGO-IMAGEM -->
+
+			<p:dialog header="Imagem da Questão" widgetVar="imagem-questao"
+				showEffect="explode" id="imagem-questao" width="500"
+				styleClass="centralizado">
+
+				<p:graphicImage url="#{cadastrarSimuladoController.linkImagem}"
+					width="400" height="400" alt="Imagem-Questao" />
+
+			</p:dialog>
+
+			<!-- DIALOGO-ALTERNATIVAS -->
+
+			<p:dialog header="Enunciado da Questão" widgetVar="enunciado-questao"
+				id="enunciado-questao" width="400" height="400">
+				<p:outputPanel deferred="true">
+					<h:outputText escape="false"
+						value="#{cadastrarSimuladoController.selecionada.enunciado}" />
+				</p:outputPanel>
+			</p:dialog>
+
+			<!-- DIALOGO-ALTERNATIVAS -->
+
+			<p:dialog header="Alternativas da Questão"
+				widgetVar="alternativas-questao" id="alternativas-questao"
+				width="960">
+
+				<p:dataTable id="alternativas-table"
+					value="#{cadastrarSimuladoController.selecionada.alternativas}"
+					var="alternativa" paginator="true" rows="10"
+					rowsPerPageTemplate="10, 20" lazy="true" paginatorPosition="top"
+					paginatorAlwaysVisible="false"
+					emptyMessage="Nenhuma informação encontrada." reflow="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{currentPage} de {totalPages}">
+
+					<p:column headerText="Enunciado" styleClass="centralizado">
+						<h:outputText escape="false" value="#{alternativa.enunciado}" />
+					</p:column>
+
+					<p:column headerText="Correta" styleClass="centralizado"
+						width="150">
+						<p:selectBooleanButton id="alternativa-correta" disabled="true"
+							value="#{alternativa.correta}" onLabel="Correta"
+							offLabel="Errada" style="width:100px" />
+					</p:column>
+
+					<p:column headerText="Data de cadastro" width="90"
+						styleClass="centralizado">
+						<h:outputLabel value="#{alternativa.dataDeCriacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputLabel>
+					</p:column>
+				</p:dataTable>
+
+			</p:dialog>
+		</h:form>
 	</ui:define>
-
-
 </ui:composition>

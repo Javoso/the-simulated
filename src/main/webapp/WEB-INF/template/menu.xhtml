@@ -18,13 +18,13 @@
 			</div>
 			<ul class="sidebar-menu" data-widget="tree">
 				<li>
-					<p:link href="../dashboard/dashboard.xhtml">
+					<p:link href="../dashboard/dashboard.xhtml" rendered="#{sessaoBean.hasAnyRoleSistema()}">
 						<i class="fa fa-dashboard" />
 						<span>Dashboard</span>
 					</p:link>
 				</li>
 				<li class="treeview">
-					<p:link>
+					<p:link rendered="#{sessaoBean.hasRoleAdministrador()}">
 						<i class="fa fa-tags"></i>
 						<span>Categoria</span>
 						<span class="pull-right-container"> <i
@@ -34,13 +34,13 @@
 
 					<ul class="treeview-menu">
 						<li>
-							<p:link href="../categoria/cadastrar-categoria.xhtml">
+							<p:link href="../categoria/cadastrar-categoria.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-plus-circle"></i>
 									Cadastrar categoria
 							</p:link>
 						</li>
 						<li>
-							<p:link href="../categoria/pesquisar-categoria.xhtml">
+							<p:link href="../categoria/pesquisar-categoria.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-search"></i>
 									Pesquisar categorias
 							</p:link>
@@ -48,8 +48,8 @@
 					</ul>
 				</li>
 
-				<li class="treeview">
-					<p:link>
+				<li class="treeview" >
+					<p:link rendered="#{sessaoBean.hasRoleAdministrador()}">
 						<i class="fa fa-cog"></i>
 						<span>Configurações</span>
 						<span class="pull-right-container"> <i
@@ -59,7 +59,7 @@
 
 					<ul class="treeview-menu">
 						<li>
-							<p:link href="../configuracoes/configuracoes-email.xhtml">
+							<p:link href="../configuracoes/configuracoes-email.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-envelope"></i>
 									E-mail
 							</p:link>
@@ -71,13 +71,13 @@
 <!-- 							</p:link> -->
 <!-- 						</li> -->
 						<li>
-							<p:link href="../permissao/permissao.xhtml">
+							<p:link href="../permissao/permissao.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-key"></i>
 									Permissões
 							</p:link>
 						</li>
 						<li>
-							<p:link href="../usuario/pesquisar-usuarios.xhtml">
+							<p:link href="../usuario/pesquisar-usuarios.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-user"></i>
 									Usuários
 							</p:link>
@@ -85,7 +85,7 @@
 					</ul>
 				</li>
 				<li class="treeview">
-					<p:link>
+					<p:link rendered="#{sessaoBean.hasAnyRoleSistema()}">
 						<i class="fa fa-file"></i>
 						<span>Conteúdo de apoio</span>
 						<span class="pull-right-container"> <i
@@ -95,15 +95,15 @@
 					<ul class="treeview-menu">
 						<li>
 							<p:link
-								href="../conteudo/cadastrar-conteudo-apoio.xhtml">
+								href="../conteudo/cadastrar-conteudo-apoio.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-plus-circle"></i>
-									Cadastrar Conteúdo
+									Cadastrar Conteúdos
 							</p:link>
 						</li>
 						<li class="treeview">
 							<a>
 								<i class="fa fa-search"></i>
-								<span> Pesquisar Conteúdo </span>
+								<span> Visualizar Conteúdos </span>
 								<span class="pull-right-container"> <i
 									class="fa fa-angle-left pull-right"></i>
 								</span>
@@ -157,7 +157,7 @@
 					</ul>
 				</li>
 				<li class="treeview">
-					<p:link>
+					<p:link rendered="#{sessaoBean.hasRoleAdministrador()}">
 						<i class="fa fa-question-circle"></i>
 						<span>Questões</span>
 						<span class="pull-right-container"> <i
@@ -166,13 +166,13 @@
 					</p:link>
 					<ul class="treeview-menu">
 						<li>
-							<p:link href="../questao/cadastrar-questao.xhtml">
+							<p:link href="../questao/cadastrar-questao.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-plus-circle"></i>
 									Cadastrar questão
 							</p:link>
 						</li>
 						<li>
-							<p:link href="../questao/pesquisar-questao.xhtml">
+							<p:link href="../questao/pesquisar-questao.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-search"></i>
 									Pesquisar questões
 							</p:link>
@@ -180,7 +180,7 @@
 					</ul>
 				</li>
 				<li class="treeview">
-					<p:link>
+					<p:link rendered="#{sessaoBean.hasRoleAdministrador()}">
 						<i class="fa fa-reply-all"></i>
 						<span>Resposta</span>
 						<span class="pull-right-container"> <i
@@ -190,7 +190,7 @@
 
 					<ul class="treeview-menu">
 						<li>
-							<p:link href="../resposta/pesquisar-resposta.xhtml">
+							<p:link href="../resposta/pesquisar-resposta.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-search"></i>
 									Pesquisar respostas
 							</p:link>
@@ -198,7 +198,7 @@
 					</ul>
 				</li>
 				<li class="treeview">
-					<p:link>
+					<p:link rendered="#{sessaoBean.hasAnyRoleSistema()}">
 						<i class="fa fa-list-alt"></i>
 						<span>Simulado</span>
 						<span class="pull-right-container"> <i
@@ -208,21 +208,27 @@
 
 					<ul class="treeview-menu">
 						<li>
-							<p:link href="../simulado/cadastrar-simulado.xhtml">
+							<p:link href="../simulado/cadastrar-simulado.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-plus-circle"></i>
 									Cadastrar simulado
 							</p:link>
 						</li>
 						<li>
-							<p:link href="../simulado/pesquisar-simulado.xhtml">
+							<p:link href="../simulado/pesquisar-simulado.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-search"></i>
 									Pesquisar simulado
+							</p:link>
+						</li>
+						<li>
+							<p:link href="../simulado/responder-simulado.xhtml" rendered="#{sessaoBean.hasAnyRoleSistema()}">
+								<i class="fa fa-pencil"></i>
+									Responder simulado
 							</p:link>
 						</li>
 					</ul>
 				</li>
 				<li class="treeview">
-					<p:link>
+					<p:link rendered="#{sessaoBean.hasRoleAdministrador()}">
 						<i class="fa fa-tags"></i>
 						<span>Sub-Categoria</span>
 						<span class="pull-right-container"> <i
@@ -232,13 +238,13 @@
 
 					<ul class="treeview-menu">
 						<li>
-							<p:link href="../sub_categoria/cadastrar-sub-categoria.xhtml">
+							<p:link href="../sub_categoria/cadastrar-sub-categoria.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-plus-circle"></i>
 									Cadastrar sub-categoria
 							</p:link>
 						</li>
 						<li>
-							<p:link href="../sub_categoria/pesquisar-sub-categoria.xhtml">
+							<p:link href="../sub_categoria/pesquisar-sub-categoria.xhtml" rendered="#{sessaoBean.hasRoleAdministrador()}">
 								<i class="fa fa-search"></i>
 									Pesquisar sub-categorias
 							</p:link>

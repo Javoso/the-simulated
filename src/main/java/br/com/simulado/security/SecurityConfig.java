@@ -16,7 +16,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String URL_LOGIN = "/login.xhtml";
 	private static final String ESQUECEU_SENHA = "/esqueceu-senha.xhtml";
 	private static final String CADASTRAR_USUARIO = "/usuario/cadastrar-usuario.xhtml";
-	private static final String SESSAO_EXPIRADA = "sessao-expirada.xhtml";
+	private static final String SESSAO_EXPIRADA = "/sessao-expirada.xhtml";
+	private static final String CONFIRMACAO = "/confirmacao.xhtml";
+	private static final String DADOS_VALIDADOS = "/dados-validados.xhtml";
 
 	@Bean
 	public Md5PasswordEncoder passwordEncoder() {
@@ -42,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 
 			.authorizeRequests()
-				.antMatchers(SESSAO_EXPIRADA, "/403.xhtml", "/404.xhtml", "/500.xhtml").authenticated()
-				.antMatchers(URL_LOGIN, ESQUECEU_SENHA, CADASTRAR_USUARIO, "/javax.faces.resource/**", "/resources/**").permitAll()
+				.antMatchers(SESSAO_EXPIRADA, "/error/**").authenticated()
+				.antMatchers(URL_LOGIN, ESQUECEU_SENHA, CADASTRAR_USUARIO, CONFIRMACAO, DADOS_VALIDADOS, "/javax.faces.resource/**", "/resources/**").permitAll()
 				
 				
 				.antMatchers("/categoria/**").hasRole("ADMIN")
@@ -54,8 +56,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/questao/cadastrar-questao.xhtml").hasRole("ADMIN")
 				.antMatchers("/questao/pesquisar-questao.xhtml").hasAnyRole("ADMIN")
 				.antMatchers("/permissao/permissao.xhtml").hasRole("ADMIN")
-				.antMatchers("/resposta/**").hasAnyRole("ADMIN","USER")
-				.antMatchers("/simulado/**").hasAnyRole("ADMIN","USER")
+				.antMatchers("/resposta/**").hasAnyRole("ADMIN")
+				.antMatchers("/tentativa/**").hasAnyRole("ADMIN","USER")
+				.antMatchers("/simulado/responder-simulado.xhtml").hasAnyRole("ADMIN","USER")
+				.antMatchers("/simulado/**").hasAnyRole("ADMIN")
 				.antMatchers("/sub_categoria/**").hasRole("ADMIN")
 				.antMatchers("/usuario/pesquisar-usuarios.xhtml").hasRole("ADMIN")
 				.antMatchers("/usuario/alterar-senha.xhtml").hasAnyRole("ADMIN","USER")
@@ -75,6 +79,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 
 			.exceptionHandling()
-				.accessDeniedPage("/403.xhtml");
+				.accessDeniedPage("/error/403.xhtml");
 	}
 }

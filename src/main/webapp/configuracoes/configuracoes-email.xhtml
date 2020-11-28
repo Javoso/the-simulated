@@ -24,6 +24,165 @@
 
 	<ui:define name="conteudo">
 
+		<h:form id="frm">
+			<div class="ui-fluid">
+				<p:messages autoUpdate="true" closable="true" />
+
+				<h:panelGroup layout="block" id="confEmail"
+					styleClass="panel panel-default">
+					<div class="panel-heading">Configurações de E-mail</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<p:outputLabel value="Host Name:" styleClass="myLabel"
+										for="hostname" />
+									<p:inputText id="hostname"
+										value="#{configuracaoEmailBean.configuracao.hostname}"
+										required="true" placeholder="Ex.: smtp.gmail.com"
+										requiredMessage="Campo 'Host Name' é obrigatório."
+										styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<p:outputLabel value="Porta:" styleClass="myLabel" for="port" />
+
+									<p:inputText id="port"
+										value="#{configuracaoEmailBean.configuracao.port}"
+										required="true" maxlength="6" placeholder="Ex.: 587"
+										requiredMessage="Campo 'Porta' é obrigatório."
+										styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<p:outputLabel value="Usa SSL?:" styleClass="myLabel" />
+									<h:outputText value=" * " styleClass="campoObrigatorio" />
+
+									<p:selectOneRadio required="true"
+										value="#{configuracaoEmailBean.configuracao.ssl}"
+										requiredMessage="Campo 'SSL' é obrigatório!">
+										<f:selectItem itemLabel="Sim" itemValue="true" />
+										<f:selectItem itemLabel="Não" itemValue="false" />
+									</p:selectOneRadio>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<p:outputLabel value="E-mail de envio:" styleClass="myLabel"
+										for="email" />
+
+									<p:inputText
+										value="#{configuracaoEmailBean.configuracao.username}"
+										required="true"
+										placeholder="Ex.: email@unicatolicaquixada.edu.br"
+										requiredMessage="Campo 'E-mail de envio' é obrigatório!"
+										styleClass="form-control" id="email" />
+
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<h:panelGroup rendered="#{configuracaoEmailBean.cadastrada}">
+										<h:outputText value="Deseja atualizar a senha?"
+											styleClass="myLabel" />
+									</h:panelGroup>
+
+									<p:selectOneRadio id="rad"
+										rendered="#{configuracaoEmailBean.cadastrada}"
+										value="#{configuracaoEmailBean.mudarSenha}">
+
+										<f:selectItem itemLabel="Sim" itemValue="true" />
+										<f:selectItem itemLabel="Não" itemValue="false" />
+
+										<p:ajax process="rad"
+											update="senha-label senha-input confirmar-label confirmar-input" />
+									</p:selectOneRadio>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<h:panelGroup id="senha-label">
+										<h:panelGroup
+											rendered="#{configuracaoEmailBean.nova or configuracaoEmailBean.mudarSenha}">
+											<p:outputLabel value="Senha:" styleClass="myLabel"
+												for="senha" />
+										</h:panelGroup>
+									</h:panelGroup>
+
+									<h:panelGroup id="senha-input">
+										<h:panelGroup
+											rendered="#{configuracaoEmailBean.nova or configuracaoEmailBean.mudarSenha}">
+											<p:password styleClass="form-control" maxlength="20"
+												value="#{configuracaoEmailBean.senha}" required="true"
+												id="senha" match="confirmar" placeholder="Insira a senha"
+												requiredMessage="Campo 'Senha' é obrigatório!" />
+										</h:panelGroup>
+									</h:panelGroup>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<h:panelGroup id="confirmar-label">
+										<h:panelGroup
+											rendered="#{configuracaoEmailBean.nova or configuracaoEmailBean.mudarSenha}">
+											<p:outputLabel value="Confirmar senha:" styleClass="myLabel"
+												for="confirmar" />
+										</h:panelGroup>
+									</h:panelGroup>
+
+									<h:panelGroup id="confirmar-input">
+										<h:panelGroup
+											rendered="#{configuracaoEmailBean.nova or configuracaoEmailBean.mudarSenha}">
+											<p:password id="confirmar" styleClass="form-control"
+												required="true" maxlength="20"
+												placeholder="Confirme a senha"
+												requiredMessage="Campo 'Confirmar senha' é obrigatório!" />
+										</h:panelGroup>
+									</h:panelGroup>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+			</div>
+
+			<br />
+
+			<div class="panel-footer">
+				<p:commandButton styleClass="button-blue" value="Salvar"
+					rendered="#{configuracaoEmailBean.nova}" icon="fa fa-floppy-o"
+					action="#{configuracaoEmailBean.save}" update="frm" />
+
+				<p:commandButton styleClass="button-blue" value="Atualizar"
+					rendered="#{configuracaoEmailBean.cadastrada}" icon="fa fa-pencil"
+					action="#{configuracaoEmailBean.update}" update="frm" />
+
+				<p:spacer width="5px" />
+
+				<p:button outcome="/dashboard/dashboard.xhtml" value="Cancelar"
+					styleClass="button-orange" icon="fa fa-ban" />
+			</div>
+		</h:form>
 	</ui:define>
 
 

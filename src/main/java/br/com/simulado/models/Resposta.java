@@ -26,13 +26,11 @@ import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "RESPOSTA")
 @Entity(name = "resposta")
 public class Resposta extends EntidadeGenerica<Long> implements Serializable {
@@ -56,15 +54,15 @@ public class Resposta extends EntidadeGenerica<Long> implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ESTUDANTE_ID")
 	private Usuario estudante;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "SIMULADO_ID")
 	private Simulado simulado;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "QUESTAO_ID")
 	private Questao questaoSelecionada;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ALTERNATIVA_ID")
 	private Alternativa alternativaEscolhida;
@@ -87,6 +85,15 @@ public class Resposta extends EntidadeGenerica<Long> implements Serializable {
 	@Override
 	public String codificarId() {
 		return new AES().codificar(getId().toString());
+	}
+
+	public Resposta(Usuario estudante, Simulado simulado, Questao questaoSelecionada,
+			Alternativa alternativaEscolhida) {
+		super();
+		this.estudante = estudante;
+		this.simulado = simulado;
+		this.questaoSelecionada = questaoSelecionada;
+		this.alternativaEscolhida = alternativaEscolhida;
 	}
 
 }

@@ -87,10 +87,16 @@ public class Alternativa extends EntidadeGenerica<Long> implements Serializable 
 	public boolean eCorreta() {
 		return correta;
 	}
-	
+
 	@Transient
 	public String getImage() {
-		return getEnunciado().replaceAll("\\(", "").replaceAll("\\)","");
+		return getEnunciado().replaceAll("\\(", "").replaceAll("\\)", "");
+	}
+
+	@Transient
+	public String getStyle() {
+		return eCorreta() ? "correta"
+				: "errada";
 	}
 
 	@Override

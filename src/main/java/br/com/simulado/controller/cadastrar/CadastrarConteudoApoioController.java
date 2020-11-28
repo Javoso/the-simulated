@@ -56,6 +56,7 @@ public class CadastrarConteudoApoioController extends AbstractController impleme
 		if (idParamentro != null) {
 			try {
 				conteudo = conteudoService.findById(idParamentro);
+				subCategoriasPorCategoria();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -65,39 +66,51 @@ public class CadastrarConteudoApoioController extends AbstractController impleme
 
 	public void subCategoriasPorCategoria() {
 		try {
-			subCategorias = serviceSub.subCategoriasPorCategoria(categoria);
+			subCategorias = serviceSub.subCategoriasPorCategoria(conteudo.getCategoria());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void save() {
+	public void  save() {
 		try {
 			conteudoService.save(conteudo);
 			onSuccessWithFlash("conteúdo de apoio salvo com sucesso");
-			// return "/sub_categoria/pesquisar-sub-categoria.xhtml?faces-redirect=true";
+			//return "/conteudo/conteudo-apoio.xhtml?watch="+getParamNameCodificado(conteudo.getCategoria().getId())+"?faces-redirect=true";
 		} catch (Exception e) {
 			onError("Não foi possivel salvar a subcategoria");
 			e.printStackTrace();
 		}
 		limparCampos();
-		// return null;
+		//return null;
 	}
 
-	public void update() {
+	public String  update() {
 		try {
 			conteudoService.update(conteudo);
 			onSuccessWithFlash("Conteudo de apoio atualizada com sucesso");
-			// return "/sub_categoria/pesquisar-sub-categoria.xhtml?faces-redirect=true";
+			 return "/conteudo/conteudo-apoio.xhtml?watch="+getParamNameCodificado(conteudo.getCategoria().getId())+"?faces-redirect=true";
 		} catch (Exception e) {
 			onError("Não foi possivel atualizar a subcategoria");
 			e.printStackTrace();
 		}
 		limparCampos();
-		// return null;
+		return null;
 	}
 	public void limparCampos() {
 		conteudo = new ConteudoApoio();
 		categoria = new Categoria();
+	}
+	
+	public String codificarCategoriaFundamento() {
+		return getParamNameCodificado(1L);
+	}
+
+	public String codificarCategoriaMatematica() {
+		return getParamNameCodificado(3L);
+	}
+
+	public String codificarCategoriaTecnologia() {
+		return getParamNameCodificado(2L);
 	}
 }

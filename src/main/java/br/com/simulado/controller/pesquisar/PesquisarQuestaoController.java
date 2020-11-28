@@ -86,8 +86,6 @@ public class PesquisarQuestaoController extends AbstractController {
 			initValues();
 		}
 	}
-
-
 	
 	public void resetFilterCategoria() {
 		this.filter.setCategoria(null);

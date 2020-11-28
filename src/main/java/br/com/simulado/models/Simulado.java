@@ -3,12 +3,13 @@ package br.com.simulado.models;
 import static java.util.Objects.nonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,7 +22,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,16 +35,14 @@ import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "SIMULADO")
 @Entity(name = "simulado")
-public class Simulado extends EntidadeGenerica<Long> implements Serializable{
+public class Simulado extends EntidadeGenerica<Long> implements Serializable {
 
 	private static final long serialVersionUID = 4492665817049626164L;
 
@@ -61,25 +59,23 @@ public class Simulado extends EntidadeGenerica<Long> implements Serializable{
 	@Type(type = "true_false")
 	@Column(name = "STATUS")
 	private Boolean status = true;
-	
-	@ManyToMany(cascade = { CascadeType.ALL })
+
+	@Column(name = "NOME", length = 2000)
+	private String nome;
+
+	@ManyToMany
 	@JoinTable(name = "SIMULADO_QUESTAO", joinColumns = { @JoinColumn(name = "SIMULADO_ID") }, inverseJoinColumns = {
-	@JoinColumn(name = "QUESTAO_ID") })
-	private List<Questao> questoes;
-	
+			@JoinColumn(name = "QUESTAO_ID") })
+	private List<Questao> questoes = new ArrayList<>();
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CRIADOR_ID")
 	private Usuario criador;
-	
-	@Column(name="TIPO_SIMULADO")
+
+	@Column(name = "TIPO_SIMULADO")
 	@Enumerated(EnumType.STRING)
 	private TipoSimulado tipoSimulado;
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "SIMULADO__RESPOSTA", joinColumns = { @JoinColumn(name = "SIMULADO_ID") }, inverseJoinColumns = {
-	@JoinColumn(name = "RESPOSTA_ID") })
-	private Set<Resposta> respostas;
-	
+
 	@Override
 	public boolean isAtivo() {
 		return Objects.equals(status, true);
@@ -99,5 +95,34 @@ public class Simulado extends EntidadeGenerica<Long> implements Serializable{
 	public String codificarId() {
 		return new AES().codificar(id.toString());
 	}
-	
+
+	public void adicionaQuestoes(List<Questao> questoes) {
+		questoes.forEach(this.questoes::add);
+	}
+
+	public void adicionaQuestao(Questao questao) {
+		this.questoes.add(questao);
+	}
+
+	public boolean simuladoJaPossuiEssaQuestao(Questao questao) {
+		return questoes.stream().anyMatch(q -> q.equals(questao));
+	}
+
+	public List<Questao> questoesDoSimuladoPorCategora(Categoria categoria) {
+		if (possuiItens()) {
+			return questoes.stream()
+					.filter(q -> q.getCategoria().getNome().equalsIgnoreCase(categoria.getNome()))
+					.collect(Collectors.toList());
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	public void removeQuestao(Questao questao) {
+		this.questoes.remove(questao);
+	}
+
+	public boolean possuiItens() {
+		return !questoes.isEmpty();
+	}
 }

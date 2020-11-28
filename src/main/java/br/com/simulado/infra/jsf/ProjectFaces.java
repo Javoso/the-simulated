@@ -93,7 +93,7 @@ public class ProjectFaces implements Serializable {
 		return new AES().decodificar(param);
 	}
 
-	public String getParamMatricula(String paramName) {
+	public String getParamId(String paramName) {
 		String param = request.getParameter(paramName);
 
 		if (param == null || param.length() != 22)

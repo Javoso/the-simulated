@@ -19,7 +19,7 @@ public class FacesUtil implements Serializable {
 
 	@Inject
 	private FacesContext context;
- 
+
 	@Inject
 	private ExternalContext external;
 
@@ -48,7 +48,7 @@ public class FacesUtil implements Serializable {
 	public String getParamName(String paramName) {
 		return request.getParameter(paramName);
 	}
-	
+
 	public String getParamNameDecodificado(String paramName) {
 		return new AES().decodificar(getParamName(paramName));
 	}
@@ -69,7 +69,7 @@ public class FacesUtil implements Serializable {
 		}
 	}
 
-	public String getParamMatricula(String paramName) {
+	public String getParamId(String paramName) {
 		String param = request.getParameter(paramName);
 
 		if (param == null || param.length() != 22)
@@ -97,7 +97,7 @@ public class FacesUtil implements Serializable {
 	private static FacesContext getFacesContext() {
 		return FacesContext.getCurrentInstance();
 	}
-	
+
 	public String getParameterValue(String parametro) {
 		return external.getRequestParameterMap().get(parametro);
 	}
@@ -112,11 +112,11 @@ public class FacesUtil implements Serializable {
 
 	public void updateComponents(boolean goToTop, String... idsComponent) {
 		PrimeFaces.current().ajax().update(idsComponent);
-		
-		if(goToTop)
+
+		if (goToTop)
 			executeJS("goToTop()");
 	}
-	
+
 	public void executeJS(String javascript) {
 		PrimeFaces.current().executeScript(javascript);
 	}

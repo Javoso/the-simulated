@@ -33,13 +33,33 @@
 
 			<p:messages id="msg" closable="true" />
 
+
 			<div jsf:id="panel" class="ui-fluid ui-g">
-				<div class="ui-g-12 ui-md-12 ui-lg-12">
-					<p:outputLabel value="Enunciado: " for="enunciado" />
+				<div class="ui-g-2 ui-md-2 ui-lg-2">
+					<p:outputLabel value="Editor de Texto: " />
 					<br />
-					<p:textEditor id="enunciado"
-						value="#{cadastrarQuestaoController.questao.enunciado}"
-						placeholder="Escreva aqui o enunciado da questão" height="150" />
+					<p:selectBooleanButton id="editorButton"
+						value="#{cadastrarQuestaoController.editorSimples}"
+						onLabel="Simples" offLabel="Completo">
+						<p:ajax update="panel-editor" />
+					</p:selectBooleanButton>
+				</div>
+
+				<div class="ui-g-12 ui-md-12 ui-lg-12">
+					<p:outputLabel value="Enunciado: " />
+					<br />
+
+					<h:panelGroup id="panel-editor">
+						<p:textEditor id="enunciado"
+							rendered="#{cadastrarQuestaoController.editorSimples}"
+							value="#{cadastrarQuestaoController.questao.enunciado}"
+							placeholder="Escreva aqui o enunciado da questão" height="150" />
+
+						<pe:ckEditor id="enunciado-full"
+							rendered="#{not cadastrarQuestaoController.editorSimples}"
+							value="#{cadastrarQuestaoController.questao.enunciado}"
+							width="auto" />
+					</h:panelGroup>
 				</div>
 				<div class="ui-g-12 ui-md-6 ui-lg-4">
 					<p:outputLabel value="Referências: " for="referencia" />
@@ -163,7 +183,7 @@
 
 				</p:dataTable>
 			</div>
-			
+
 			<hr />
 
 			<div>
@@ -210,24 +230,23 @@
 						<p:outputLabel value="Enunciado: " for="enunciado-dialog"
 							style="marrgin-right: 10px" />
 						<br />
-						<p:textEditor 
+						<p:textEditor
 							value="#{cadastrarQuestaoController.alternativa.enunciado}"
 							id="enunciado-dialog" required="true"
-							requiredMessage="Campo 'Enunciado' obrigatório" height="80"
-							/>
+							requiredMessage="Campo 'Enunciado' obrigatório" height="80" />
 					</h:panelGroup>
 
 
 					<f:facet name="footer">
 						<hr />
 						<p:commandButton value="Adicionar"
-							update="alternativas-table msg-dialog dialogo "
+							update="alternativas-table msg-dialog enunciado-dialog correta-dialog"
 							rendered="#{not cadastrarQuestaoController.alternativaJaAdicionada()}"
 							icon="fa fa-save"
 							action="#{cadastrarQuestaoController.adicionarAlternativa()}" />
 
 						<p:commandButton value="Editar"
-							update="alternativas-table msg-dialog dialogo "
+							update="alternativas-table msg-dialog enunciado-dialog correta-dialog"
 							rendered="#{cadastrarQuestaoController.alternativaJaAdicionada()}"
 							icon="fa fa-pencil"
 							action="#{cadastrarQuestaoController.editarAlternativa()}" />

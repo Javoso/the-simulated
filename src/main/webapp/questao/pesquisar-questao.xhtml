@@ -216,9 +216,11 @@
 			</p:dialog>
 
 			<p:dialog header="Enunciado da Questão" widgetVar="enunciado-questao"
-				id="enunciado-questao" width="400">
-				<h:outputText escape="false"
-					value="#{pesquisarQuestaoController.selecionada.enunciado}" />
+				id="enunciado-questao" width="400" height="400">
+				<p:outputPanel deferred="true">
+					<h:outputText escape="false"
+						value="#{pesquisarQuestaoController.selecionada.enunciado}" />
+				</p:outputPanel>
 			</p:dialog>
 
 			<p:dialog header="Alternativas da Questão"

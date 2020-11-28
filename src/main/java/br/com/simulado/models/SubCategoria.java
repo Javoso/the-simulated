@@ -27,13 +27,11 @@ import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @Table(name = "SUB_CATEGORIA")
 @Entity(name = "subCategoria")
@@ -84,5 +82,12 @@ public class SubCategoria extends EntidadeGenerica<Long> implements Serializable
 	public boolean isCadastrada() {
 		return !isNova();
 	}
+
+	@Override
+	public String toString() {
+		return getNome();
+	}
+	
+	
 
 }

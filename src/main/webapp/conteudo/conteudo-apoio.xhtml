@@ -6,66 +6,91 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/WEB-INF/template/layout.xhtml">
 
-	
+
 	<ui:define name="title-page">
 		Conteúdo
 	</ui:define>
-	
+
 	<ui:define name="imagem">
 	</ui:define>
-	
+
 	<ui:define name="titulo">
 		Conteúdo de Apoio
+<!-- 		<p:button value="Cadastrar" title="Cadastrar conteúdo de apoio" -->
+		<!-- 			outcome="/conteudo/cadastrar-conteudo-apoio.xhtml" icon="fa fa-plus" -->
+		<!-- 			styleClass="btn btn-sm pull-right" /> -->
 	</ui:define>
 
 	<ui:define name="sub-titulo">
-		<h:outputLabel value="Conteúdo de apoio sobre #{pesquisarConteudoApoioController.categoria.descricao}"/>
+		<h:outputLabel
+			value="Conteúdo de apoio sobre #{pesquisarConteudoApoioController.categoria.descricao}" />
 	</ui:define>
 
 	<ui:define name="conteudo">
 		<div class="box-header with-border">
-			<label style="font-size: 20px">			
-			 	#{pesquisarConteudoApoioController.categoria.descricao}
-			</label>
-			
-			<p:button value="Cadastrar" outcome="/conteudo/cadastrar-conteudo-apoio.xhtml" icon="fa fa-plus" styleClass="btn btn-sm pull-right"  />
-				
+			<label style="font-size: 20px">
+				#{pesquisarConteudoApoioController.categoria.descricao} </label>
+
+			<p:button value="Cadastrar"
+				outcome="/conteudo/cadastrar-conteudo-apoio.xhtml" icon="fa fa-plus"
+				styleClass="btn btn-sm pull-right" />
+
 			<h:form>
 				<p:accordionPanel style="margin-top:20px">
-					<c:forEach items="#{pesquisarConteudoApoioController.subcategorias}" var="subCategoria">
+					<c:forEach
+						items="#{pesquisarConteudoApoioController.subcategorias}"
+						var="subCategoria">
 						<p:tab title="#{subCategoria.nome}">
 							<div>
 								<p:outputPanel deferred="true">
-									<ui:repeat var="conteudo" value="#{pesquisarConteudoApoioController.getConteudos(subCategoria)}">
-										<div class="ui-g-12 ui-md-9 ui-sm-3 ui-lg-4">
-											<p:panel header="#{conteudo.titulo}" style="text-align:left">
-												<h:panelGrid columns="1" style="width:100%; text-align:center">
-													<a href="https://www.youtube.com/watch?v=#{conteudo.idVideo()}" target="_blank">
-														<img src="https://img.youtube.com/vi/#{conteudo.idVideo()}/default.jpg"  alt="image-link"/>
+									<c:forEach var="conteudo"
+										items="#{pesquisarConteudoApoioController.getConteudos(subCategoria)}">
+										<div class="ui-g-12 ui-md-9 ui-sm-4 ui-lg-6">
+											<p:panel header="#{conteudo.titulo}">
+												<h:panelGrid columns="1" id="panel-conteudo"
+													style="width:100%; text-align:center;">
+													<a
+														href="https://www.youtube.com/watch?v=#{conteudo.idVideo()}"
+														target="_blank"> <img
+														src="https://img.youtube.com/vi/#{conteudo.idVideo()}/default.jpg"
+														alt="image-link" />
 													</a>
-													<h:outputText value="#{conteudo.descricao}" />
+													<h:outputText escape="false" value="#{conteudo.descricao}" />
 												</h:panelGrid>
+												<f:facet name="actions" >
+													<p:link title="Editar"
+														outcome="/conteudo/cadastrar-conteudo-apoio.xhtml">
+														<h:outputText styleClass="ui-icon pi pi-refresh" />
+														<f:param name="identificador"
+															value="#{conteudo.codificarId()}" />
+													</p:link>
+													<p:commandLink title="Apagar" >
+														<h:outputText styleClass="ui-icon pi pi-trash" />
+														<f:param name="identificador"
+															value="#{conteudo.codificarId()}" />
+													</p:commandLink>
+												</f:facet>
 											</p:panel>
 										</div>
-									</ui:repeat>
+									</c:forEach>
 								</p:outputPanel>
 							</div>
 						</p:tab>
 					</c:forEach>
 				</p:accordionPanel>
-			  </h:form>
+			</h:form>
 		</div>
-<!-- 		<c:if test="#{pesquisarConteudoApoioController.fundamentosComputacao}"> -->
-<!-- 			<ui:include src="/WEB-INF/includes/conteudo-apoio/fundamentos-computacao.xhtml" /> -->
-<!-- 		</c:if> -->
+		<!-- 		<c:if test="#{pesquisarConteudoApoioController.fundamentosComputacao}"> -->
+		<!-- 			<ui:include src="/WEB-INF/includes/conteudo-apoio/fundamentos-computacao.xhtml" /> -->
+		<!-- 		</c:if> -->
 
-<!-- 		<c:if test="#{pesquisarConteudoApoioController.tecnologiasComputacao}"> -->
-<!-- 			<ui:include	src="/WEB-INF/includes/conteudo-apoio/tecnologias-computacao.xhtml" /> -->
-<!-- 		</c:if> -->
-		
-<!-- 		<c:if test="#{pesquisarConteudoApoioController.matematica}"> -->
-<!-- 			<ui:include	src="/WEB-INF/includes/conteudo-apoio/matematica.xhtml" /> -->
-<!-- 		</c:if> -->
+		<!-- 		<c:if test="#{pesquisarConteudoApoioController.tecnologiasComputacao}"> -->
+		<!-- 			<ui:include	src="/WEB-INF/includes/conteudo-apoio/tecnologias-computacao.xhtml" /> -->
+		<!-- 		</c:if> -->
+
+		<!-- 		<c:if test="#{pesquisarConteudoApoioController.matematica}"> -->
+		<!-- 			<ui:include	src="/WEB-INF/includes/conteudo-apoio/matematica.xhtml" /> -->
+		<!-- 		</c:if> -->
 
 	</ui:define>
 </ui:composition>

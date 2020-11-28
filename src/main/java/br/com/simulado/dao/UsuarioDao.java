@@ -95,10 +95,9 @@ public class UsuarioDao implements DAO<Usuario>, Serializable {
 
 		if (filtro.temStatus())
 			predicates.add(builder.equal(root.get(Usuario_.status), filtro.isStatus()));
-		
+
 		if (filtro.temPermissao())
 			predicates.add(builder.equal(root.get(Usuario_.permissoes), filtro.isStatus()));
-
 
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
@@ -120,34 +119,43 @@ public class UsuarioDao implements DAO<Usuario>, Serializable {
 		criteria.where(predicates);
 		return manager.createQuery(criteria).getSingleResult();
 	}
-	
+
 	public Usuario findByEmail(String email) {
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
 		Root<Usuario> root = criteria.from(Usuario.class);
-		criteria.where(builder.equal(root.get(Usuario_.email), email));
+		criteria.where(builder.equal(root.get(Usuario_.email), email))
+				.where(builder.equal(root.get(Usuario_.status), true));
 		return manager.createQuery(criteria).getSingleResult();
 	}
-	
-	
+
 	public void updatePassword(Usuario usuario) {
 		CriteriaUpdate<Usuario> criteria = builder.createCriteriaUpdate(Usuario.class);
 		Root<Usuario> u = criteria.from(Usuario.class);
-		criteria.set(u.get(Usuario_.senha), usuario.getSenha())
-				.set(u.get(Usuario_.mudarSenha), usuario.isMudarSenha())
+		criteria.set(u.get(Usuario_.senha), usuario.getSenha()).set(u.get(Usuario_.mudarSenha), usuario.isMudarSenha())
 
 				.where(builder.equal(u, usuario));
 
 		manager.createQuery(criteria).executeUpdate();
 	}
-	
+
 	public Usuario login(String email) {
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
 		Root<Usuario> u = criteria.from(Usuario.class);
 		u.fetch(Usuario_.permissoes, LEFT);
-
-		criteria.select(u).where(builder.equal(u.get(Usuario_.email), email));
+		Predicate[] ref = loginRestricoes(email, u);
+		criteria.select(u).where(ref);
 
 		return manager.createQuery(criteria).getSingleResult();
+	}
+
+	public Predicate[] loginRestricoes(String email, Root<Usuario> root) {
+		List<Predicate> predicates = new ArrayList<>();
+
+		predicates.add(builder.like(builder.lower(root.get(Usuario_.email)), "%" + email + "%"));
+
+		predicates.add(builder.equal(root.get(Usuario_.status), true));
+
+		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 
 }

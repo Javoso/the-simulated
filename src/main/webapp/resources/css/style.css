@@ -1,3 +1,27 @@
+.correta {
+	padding: 5px 10px 3px 10px;
+	border-color: #5CB85C;
+	border-radius: 5px;
+	border-width: medium;
+	border-style: solid;
+}
+
+.errada {
+	padding: 5px 10px 3px 10px;
+	border-color: #D9534F;
+	border-width: medium;
+	border-style: solid;
+	border-radius: 5px;
+}
+
+.gabarito {
+	padding: 5px 10px 3px 10px;
+	border-color: #337AB7;
+	border-radius: 5px;
+	border-width: medium;
+	border-style: solid;
+}
+
 .required:after {
 	content: ' *';
 	color: red;
@@ -108,7 +132,17 @@
 )
 no-repeat
 
+
+
+
+
+
  
+
+
+
+
+
 
 ;
 }
@@ -173,7 +207,7 @@ legend {
 	color: #263238;
 }
 
-.iconLink{
+.iconLink {
 	margin-right: 5px;
 }
 
@@ -551,11 +585,11 @@ legend {
 }
 
 .btn-focus {
-	background: #e600e6!important;
+	background: #e600e6 !important;
 }
 
 .btn-purple:ACTIVE {
-	background: #8000ff!important;
+	background: #8000ff !important;
 }
 
 .btn-blue:hover {
@@ -582,12 +616,12 @@ legend {
 }
 
 /* COLORS */
-
 .GoldenRod {
 	background-color: #fca752 !important;
-    background-image: none !important;
-    color: #000000 !important;
+	background-image: none !important;
+	color: #000000 !important;
 }
+
 .Green {
 	color: #4caf50;
 }
@@ -968,7 +1002,6 @@ legend {
 	margin-top: 10px;
 }
 /* RESPONSIVIDADE */
-
 @media ( max-width : 640px) {
 	.btn-panel-filter {
 		margin-top: 0px;
@@ -1011,10 +1044,9 @@ legend {
 		{
 		font-size: 8px;
 	}
-	.ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li{
+	.ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li {
 		width: 100%;
 	}
-	
 	.btn-panel-filter {
 		width: 100% !important;
 	}

@@ -24,7 +24,6 @@ public class UsuarioFilter implements Filter, Serializable{
 	@Getter
 	@Setter
 	private Permissao permissao;
-
 	
 	@Override
 	public boolean temTitulo() {

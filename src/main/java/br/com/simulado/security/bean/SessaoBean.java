@@ -119,32 +119,17 @@ public class SessaoBean implements Serializable {
         return LocalDate.now().getYear();
     }
 
-	public boolean hasRoleGruposOuPermissoes() {
-		return hasRoleManterGruposUsuarios() || hasRoleManterPermissoes();
+	public boolean hasRoleAdministrador() {
+		return hasRole("ADMIN");
 	}
 
+	public boolean hasRoleUsuario() {
+		return hasRole("USER");
+	}
+	
 	public boolean hasAnyRoleSistema() {
-		return hasRoleManterPermissoes() || hasRoleManterConfigEmail() || hasRoleManterUsuarios()
-				|| hasRoleManterGruposUsuarios();
+		return hasRoleAdministrador() || hasRoleUsuario();
 	}
-
-	public boolean hasRoleVisualizarDashboard() {
-		return hasRole("VISUALIZAR_DASHBOARD");
-	}
-
-	public boolean hasRoleManterUsuarios() {
-		return hasRole("MANTER_USUARIOS");
-	}
-
-	public boolean hasRoleManterGruposUsuarios() {
-		return hasRole("MANTER_GRUPOS_USUARIOS");
-	}
-
-	public boolean hasRoleManterConfigEmail() {
-		return hasRole("MANTER_CONFIGURACAO_EMAIL");
-	}
-
-	public boolean hasRoleManterPermissoes() {
-		return hasRole("MANTER_PERMISSOES");
-	}
+	
+	
 }

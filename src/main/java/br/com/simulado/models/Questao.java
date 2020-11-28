@@ -33,13 +33,11 @@ import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "QUESTAO")
 @Entity(name = "questao")
 public class Questao extends EntidadeGenerica<Long> implements Serializable {
@@ -159,6 +157,16 @@ public class Questao extends EntidadeGenerica<Long> implements Serializable {
 			return true;
 		else
 			throw new Exception("Nas alternativas da questão deve constar uma questão correta");
+	}
+	
+	@Transient
+	public Alternativa alternativaCorretaDaQuestao() {
+		return alternativas.stream().filter(a -> a.eCorreta()).findFirst().get();
+	}
+	
+	@Transient
+	public boolean categoriaIgual(Categoria categoria) {
+		return getCategoria().equals(categoria);
 	}
 
 	@Override

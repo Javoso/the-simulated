@@ -93,9 +93,6 @@ public class PesquisarConteudoApoioController extends AbstractController {
 
 	public List<ConteudoApoio> getConteudos(SubCategoria sub) {
 		try {
-			for (ConteudoApoio conteudoApoio : conteudoApoioService.conteudoApoiosPorSubCategoria(sub)) {
-				System.out.println(conteudoApoio.idVideo());
-			}
 			return conteudoApoioService.conteudoApoiosPorSubCategoria(sub);
 		} catch (Exception e) {
 			e.printStackTrace();

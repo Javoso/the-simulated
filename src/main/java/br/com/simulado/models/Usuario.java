@@ -3,13 +3,15 @@ package br.com.simulado.models;
 import static java.util.Objects.isNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -25,19 +27,15 @@ import br.com.simulado.service.exception.NegocioException;
 import br.com.simulado.util.AES;
 import br.com.simulado.util.Criptografia;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "USUARIO")
 public class Usuario extends EntidadeGenerica<Long> implements Serializable {
@@ -47,17 +45,18 @@ public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 	@Include
 	@Id
 	@Column(name = "ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "NOME")
 	private String nome;
-	
-	@Column(name = "EMAIL")
+
+	@Column(name = "EMAIL", unique=true)
 	private String email;
-	
+
 	@Column(name = "SENHA")
 	private String senha;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "DATA_DE_CRIACAO")
 	private Date dataDeCriacao = new Date();
@@ -65,15 +64,15 @@ public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 	@Type(type = "true_false")
 	@Column(name = "STATUS")
 	private Boolean status = true;
-	
+
 	@Column(name = "USU_IS_MUDAR_SENHA")
 	@Type(type = "true_false")
-	private boolean mudarSenha = true;
+	private boolean mudarSenha = false;
 
-	@ManyToMany(cascade = { CascadeType.ALL })
+	@ManyToMany
 	@JoinTable(name = "USUARIO_PERMISSAO", joinColumns = { @JoinColumn(name = "USUARIO_ID") }, inverseJoinColumns = {
-	@JoinColumn(name = "PERMISSAO_ID") })
-	private List<Permissao> permissoes;
+			@JoinColumn(name = "PERMISSAO_ID") })
+	private List<Permissao> permissoes = new ArrayList<>();
 
 	public void adicionar(Permissao permissao) {
 		if (isNull(permissao))
@@ -87,7 +86,7 @@ public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 		int index = this.getPermissoes().indexOf(permissao);
 		this.getPermissoes().set(index, permissao);
 	}
-	
+
 	public void remover(Permissao permissao) {
 		if (isNull(permissao))
 			throw new RuntimeException("A referência da permissão não pode ser nula!");
@@ -121,12 +120,12 @@ public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 	public String codificarId() {
 		return new AES().codificar(getId().toString());
 	}
-	
+
 	@Transient
 	public String getPaginaInicial() {
 		return "/dashboard/dashboard.xhtml";
 	}
-	
+
 	public void resetarSenha() throws NegocioException {
 		if (senha == null)
 			throw new NegocioException("a senha está nuloa");
@@ -137,6 +136,13 @@ public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 		senha = new Criptografia().criptografar(senhaNova);
 	}
 
-
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", dataDeCriacao="
+				+ dataDeCriacao + ", status=" + status + ", mudarSenha=" + mudarSenha + ", permissoes=" + permissoes
+				+ "]";
+	}
 	
+	
+
 }

@@ -19,7 +19,7 @@
 		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600"
 		media="screen" rel="stylesheet" />
 
-	<title><ui:insert name="titulo"></ui:insert> | sfin</title>
+	<title><ui:insert name="titulo"></ui:insert> | simulado</title>
 	<h:outputStylesheet library="errors" name="error.css" />
 	<h:outputStylesheet library="errors" name="base-error.css" />
 
@@ -36,10 +36,8 @@
 		<div class="post left"></div>
 		<div class="post right"></div>
 		<div class="pane">
-<!-- 			<h:graphicImage library="img" name="logo-unicatolica.png" -->
-<!-- 				styleClass="logo" /> -->
 			<div class="headline sign-text-color">
-				Erro:
+				<ui:insert name="title-"></ui:insert>
 				<ui:insert name="codigo-erro"></ui:insert>
 			</div>
 			<div class="context sign-text-color">
@@ -63,9 +61,7 @@
 		<div class="buttons-container">
 			<a class="border-button"
 				href="#{facesContext.externalContext.requestContextPath}#{sessaoBean.paginaInicial}"><span
-				class="fa fa-home"></span> Página Inicial</a> <a class="border-button"
-				href="javascript:history.back()"><span class="fa fa-mail-reply"></span>
-				Página Anterior</a>
+				class="fa fa-home"></span> Página Inicial</a>
 		</div>
 	</div>
 

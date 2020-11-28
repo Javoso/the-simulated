@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" lang="pt_BR"
+	template="/WEB-INF/template/layout-error.xhtml">
+
+	<ui:define name="titulo">Cadastrado</ui:define>
+
+	<h:form>
+		<div align="center">
+			<p:messages id="msgs" closable="true" />
+		</div>
+	</h:form>
+
+
+	<ui:define name="title-">
+		<i class="fa fa-check-square-o" aria-hidden="true"></i>
+		<br />
+	</ui:define>
+
+	<ui:define name="codigo-erro">
+		 Sucesso!
+	</ui:define>
+
+	<ui:define name="descricao-erro">Foi enviado um link para o seu e-mail para a confirmação dos seus dados</ui:define>
+
+	<ui:define name="texto-secundario-erro">Confirme seus dados</ui:define>
+
+	<ui:define name="solucao-erro">Seu cadastro foi realizado com sucesso, lhe enviamos um e-mail com link para validação de seus dados</ui:define>
+
+</ui:composition>

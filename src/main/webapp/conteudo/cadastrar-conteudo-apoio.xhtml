@@ -17,116 +17,120 @@
 
 	<ui:define name="titulo">
 		Conteúdo de apoio
+<!-- 		<p:button value="Listar" title="Listar todos os conteúdos" -->
+<!-- 			outcome="/conteudo/conteudo-apoio.xhtml" icon="fa fa-list" -->
+<!-- 			styleClass="btn btn-sm pull-right" /> -->
 	</ui:define>
 
 	<ui:define name="sub-titulo">
-		<h:outputText value=" Página para #{cadastrarConteudoApoioController.conteudo.nova ? 'cadastrar' : 'editar'} conteúdos de apoio"/>
+		<h:outputText
+			value=" Página para #{cadastrarConteudoApoioController.conteudo.nova ? 'cadastrar' : 'editar'} conteúdos de apoio" />
 	</ui:define>
 
 	<ui:define name="conteudo">
-			
+
 		<h:form id="formulario" prependId="false">
 
-				<p:messages id="msg" closable="true" />
+			<p:messages id="msg" closable="true" />
 
-				<div jsf:id="panel" class="ui-fluid ui-g">
+			<div jsf:id="panel" class="ui-fluid ui-g">
 
-					<div class="ui-g-12 ui-md-6 ui-lg-6">
-						<p:outputLabel value="Titulo: " for="titulo" />
+				<div class="ui-g-12 ui-md-6 ui-lg-6">
+					<p:outputLabel value="Titulo: " for="titulo" />
+					<br />
+					<p:inputText id="titulo" required="true"
+						placeholder="Escreva aqui o titulo"
+						value="#{cadastrarConteudoApoioController.conteudo.titulo}"
+						requiredMessage="Campo 'Titulo' obrigatório" />
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-6">
+					<p:outputLabel value="Link: " for="link" />
+					<br />
+					<p:inputText id="link" required="true"
+						placeholder="Escreva aqui a link"
+						value="#{cadastrarConteudoApoioController.conteudo.link}"
+						requiredMessage="Campo 'Link' obrigatório">
+					</p:inputText>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<p:outputLabel value="Categoria: " />
+					<br />
+					<p:selectOneMenu id="categoria" required="true"
+						value="#{cadastrarConteudoApoioController.conteudo.categoria}"
+						converter="CategoriaConverter" autoWidth="false"
+						requiredMessage="Selecione a categoria">
+						<f:selectItem itemLabel="Selecione a categoria"
+							noSelectionOption="true" />
+						<f:selectItems value="#{pesquisarCategoriaController.categorias}"
+							var="categoria" itemLabel="#{categoria.nome}"
+							itemValue="#{categoria}" />
+						<p:ajax update="panel-select-sub-categoria msg"
+							listener="#{cadastrarConteudoApoioController.subCategoriasPorCategoria()}" />
+					</p:selectOneMenu>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<h:panelGroup id="panel-select-sub-categoria">
+						<p:outputLabel value="Sub Categoria:" />
 						<br />
-						<p:inputText id="titulo" required="true"
-							placeholder="Escreva aqui o titulo"
-							value="#{cadastrarConteudoApoioController.conteudo.titulo}"
-							requiredMessage="Campo 'Titulo' obrigatório" />
-					</div>
-
-					<div class="ui-g-12 ui-md-6 ui-lg-6">
-						<p:outputLabel value="Link: " for="link" />
-						<br />
-						<p:inputText id="link" required="true"
-							placeholder="Escreva aqui a link"
-							value="#{cadastrarConteudoApoioController.conteudo.link}"
-							requiredMessage="Campo 'Link' obrigatório">
-						</p:inputText>
-					</div>
-
-					<div class="ui-g-12 ui-md-6 ui-lg-3">
-						<p:outputLabel value="Categoria: " />
-						<br />
-						<p:selectOneMenu id="categoria" required="true"
-							value="#{cadastrarConteudoApoioController.categoria}"
-							converter="CategoriaConverter" autoWidth="false"
-							requiredMessage="Selecione a categoria">
-							<f:selectItem itemLabel="Selecione a categoria"
-								noSelectionOption="true" />
-							<f:selectItems value="#{pesquisarCategoriaController.categorias}"
-								var="categoria" itemLabel="#{categoria.nome}"
-								itemValue="#{categoria}" />
-							<p:ajax update="panel-select-sub-categoria msg"
-								listener="#{cadastrarConteudoApoioController.subCategoriasPorCategoria()}" />
+						<p:selectOneMenu id="subCategoria" required="true"
+							value="#{cadastrarConteudoApoioController.conteudo.subCategoria}"
+							converter="SubCategoriaConverter" autoWidth="false"
+							requiredMessage="Selecione uma subcategoria">
+							<f:selectItem itemLabel="Selecione uma sub categoria"
+								noSelectionOption="false" />
+							<f:selectItems
+								value="#{cadastrarConteudoApoioController.subCategorias}"
+								var="subCategoria" itemLabel="#{subCategoria.nome}"
+								itemValue="#{subCategoria}" />
 						</p:selectOneMenu>
-					</div>
-
-					<div class="ui-g-12 ui-md-6 ui-lg-3">
-						<h:panelGroup id="panel-select-sub-categoria">
-							<p:outputLabel value="Sub Categoria:" />
-							<br />
-							<p:selectOneMenu id="subCategoria" required="true"
-								value="#{cadastrarConteudoApoioController.conteudo.subCategoria}"
-								converter="SubCategoriaConverter" autoWidth="false"
-								requiredMessage="Selecione uma subcategoria">
-								<f:selectItem itemLabel="Selecione uma sub categoria"
-									noSelectionOption="false" />
-								<f:selectItems
-									value="#{cadastrarConteudoApoioController.subCategorias}"
-									var="subCategoria" itemLabel="#{subCategoria.nome}"
-									itemValue="#{subCategoria}" />
-							</p:selectOneMenu>
-						</h:panelGroup>
-					</div>
-
-					<div class="ui-g-12 ui-md-12 ui-lg-6">
-						<p:outputLabel value="Descrição: " for="descricao" />
-						<br />
-						<p:inputTextarea id="descricao" required="true"
-							placeholder="Escreva aqui a descrição"
-							value="#{cadastrarConteudoApoioController.conteudo.descricao}"
-							requiredMessage="Campo 'Descrição' obrigatório" maxlength="255"
-							counterTemplate="{0} caracteres restantes." counter="display" />
-						<h:outputText id="display" />
-					</div>
+					</h:panelGroup>
 				</div>
 
-				<hr />
-				<div>
-					<p:commandButton value="Salvar" update="panel msg "
-						rendered="#{cadastrarConteudoApoioController.conteudo.nova}"
-						style="background-color: #008d4c; border-color:#008d4c; "
-						icon="fa fa-save"
-						action="#{cadastrarConteudoApoioController.save()}" />
-
-					<p:commandButton value="Atualizar" update="panel msg"
-						rendered="#{cadastrarConteudoApoioController.conteudo.cadastrada}"
-						style="background-color: #00C0EF; border-color:#00C0EF; "
-						icon="fa fa-pencil"
-						action="#{cadastrarConteudoApoioController.update()}" />
-					<p:spacer width="20" />
-
-					<p:commandButton value="Cancelar" 
-						style="background-color: #dd4b39; border-color: #d73925;"
-						icon="fa fa-close" update="formulario" />
+				<div class="ui-g-12 ui-md-12 ui-lg-6">
+					<p:outputLabel value="Descrição: " for="descricao" />
+					<br />
+					<p:inputTextarea id="descricao" required="true"
+						placeholder="Escreva aqui a descrição"
+						value="#{cadastrarConteudoApoioController.conteudo.descricao}"
+						requiredMessage="Campo 'Descrição' obrigatório" maxlength="255"
+						counterTemplate="{0} caracteres restantes." counter="display" />
+					<h:outputText id="display" />
 				</div>
+			</div>
 
-<!-- 				<p:dialog id="dialog" widgetVar="dialog-v"> -->
-<!-- 					<div class="ui-g-12 ui-md-6 ui-lg-3"> -->
-<!-- 						<img -->
-<!-- 							src="https://img.youtube.com/vi/#{cadastrarConteudoApoioController.linkId}/default.jpg" -->
-<!-- 							alt="ceara" /> -->
-<!-- 					</div> -->
-<!-- 				</p:dialog> -->
+			<hr />
+			<div>
+				<p:commandButton value="Salvar" update="panel msg "
+					rendered="#{cadastrarConteudoApoioController.conteudo.nova}"
+					style="background-color: #008d4c; border-color:#008d4c; "
+					icon="fa fa-save"
+					action="#{cadastrarConteudoApoioController.save()}" />
+
+				<p:commandButton value="Atualizar" update="panel msg"
+					rendered="#{cadastrarConteudoApoioController.conteudo.cadastrada}"
+					style="background-color: #00C0EF; border-color:#00C0EF; "
+					icon="fa fa-pencil"
+					action="#{cadastrarConteudoApoioController.update()}" />
+				<p:spacer width="20" />
+
+				<p:commandButton value="Cancelar"
+					style="background-color: #dd4b39; border-color: #d73925;"
+					icon="fa fa-close" update="formulario" />
+			</div>
+
+			<!-- 				<p:dialog id="dialog" widgetVar="dialog-v"> -->
+			<!-- 					<div class="ui-g-12 ui-md-6 ui-lg-3"> -->
+			<!-- 						<img -->
+			<!-- 							src="https://img.youtube.com/vi/#{cadastrarConteudoApoioController.linkId}/default.jpg" -->
+			<!-- 							alt="ceara" /> -->
+			<!-- 					</div> -->
+			<!-- 				</p:dialog> -->
 
 
 
-			</h:form>
+		</h:form>
 	</ui:define>
 </ui:composition>

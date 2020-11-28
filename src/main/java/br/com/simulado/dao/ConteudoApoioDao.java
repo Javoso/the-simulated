@@ -115,7 +115,7 @@ public class ConteudoApoioDao implements DAO<ConteudoApoio>, Serializable {
 		CriteriaQuery<ConteudoApoio> criteriaQuery = builder.createQuery(ConteudoApoio.class);
 		Root<ConteudoApoio> root = criteriaQuery.from(ConteudoApoio.class);
 		criteriaQuery.where(builder.equal(root.get(ConteudoApoio_.subCategoria), subCategoria));
-		criteriaQuery.orderBy(builder.asc(root.get(ConteudoApoio_.titulo)));
+		criteriaQuery.orderBy(builder.asc(root.get(ConteudoApoio_.id)));
 		return manager.createQuery(criteriaQuery).getResultList();
 	}
 

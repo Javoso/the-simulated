@@ -46,7 +46,7 @@ public class LoginBean extends AbstractController {
 
 	public void preRender() {
 		if ("true".equals(request.getParameter("invalid"))) {
-			onError("Erro! Matrícula ou senha inválidos!");
+			onError("Erro! E-mail ou senha inválidos!");
 		}
 
 	}

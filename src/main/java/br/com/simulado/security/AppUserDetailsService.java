@@ -17,10 +17,10 @@ public class AppUserDetailsService implements UserDetailsService {
 	
 
 	@Override
-	public UserDetails loadUserByUsername(String matricula) {
-		System.out.println(matricula);
+	public UserDetails loadUserByUsername(String email) {
+		System.out.println(email);
 		UsuarioService usuarioService = CDIServiceLocator.getBean(UsuarioService.class);
-		Usuario usuario = usuarioService.login(matricula);
+		Usuario usuario = usuarioService.login(email);
 		return new UsuarioSistema(usuario, getPermissoes(usuario));
 
 	}

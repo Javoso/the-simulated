@@ -61,6 +61,12 @@ public class Categoria extends EntidadeGenerica<Long> implements Serializable {
 	@Column(name="CATEGORIA_DESCRICAO")
 	private String descricao;
 	
+	@Column(name="CATEGORIA_STYLE")
+	private String style;
+	
+	@Column(name="CATEGORIA_ICONE")
+	private String icone;
+	
 	@Column(name="TIPO_CATEGORIA")
 	@Enumerated(EnumType.STRING)
 	private TipoCategoria tipoCategoria;

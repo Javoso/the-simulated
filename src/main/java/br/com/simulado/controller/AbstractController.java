@@ -91,5 +91,9 @@ public abstract class AbstractController implements Serializable {
 		}
 		return null;
 	}
+	
+	protected void redirect(String url) {
+		facesUtil.redirect(url);
+	}
 
 }

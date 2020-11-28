@@ -54,6 +54,10 @@ public class CadastrarQuestaoController extends AbstractController {
 	@Getter
 	@Setter
 	private List<SubCategoria> subCategorias = new ArrayList<>();
+	
+	@Getter
+	@Setter
+	private boolean editorSimples = true;
 
 	@Override
 	public void init() {
