@@ -19,7 +19,7 @@
 		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
 		<location>/sessao-expirada.xhtml</location>
 	</error-page>
-	
+
 	<error-page>
 		<error-code>403</error-code>
 		<location>/error/403.xhtml</location>
@@ -38,7 +38,7 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-	
+
 	<mime-mapping>
 		<extension>ico</extension>
 		<mime-type>image/x-icon</mime-type>
@@ -52,14 +52,10 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
-	<filter>
-		<filter-name>Primefaces Fileupload Filter</filter-name>
-		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
-	</filter>
+
 	<listener>
 		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>
-	
 	<resource-env-ref>
 		<resource-env-ref-name>BeanManager</resource-env-ref-name>
 		<resource-env-ref-type>javax.enterprise.inject.spi.BeanManager</resource-env-ref-type>
@@ -112,5 +108,18 @@
 		<extension>ttf</extension>
 		<mime-type>application/x-font-ttf</mime-type>
 	</mime-mapping>
-	
+
+<!-- 	<context-param> -->
+<!-- 		<param-name>primefaces.UPLOADER</param-name> -->
+<!-- 		<param-value>auto|native|commons</param-value> -->
+<!-- 	</context-param> -->
+
+<!-- 	<filter> -->
+<!--    		 <filter-name>PrimeFaces FileUpload Filter</filter-name> -->
+<!--    		 <filter-class> org.primefaces.webapp.filter.FileUploadFilter </filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 	    <filter-name>PrimeFaces FileUpload Filter</filter-name> -->
+<!--     	<servlet-name>Faces Servlet</servlet-name> -->
+<!-- 	</filter-mapping> -->
 </web-app>

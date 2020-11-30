@@ -1,9 +1,12 @@
 package br.com.simulado.models;
 
 import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -51,8 +55,36 @@ public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 	@Column(name = "NOME")
 	private String nome;
 
-	@Column(name = "EMAIL", unique=true)
+	@Column(name = "EMAIL", unique = true)
 	private String email;
+
+	@Lob
+	@Column(name = "IMAGEM")
+	private String imagem;
+
+	@Column(name = "FORMACAO", length = 5000)
+	private String formacao;
+
+	@Column(name = "CONHECIMENTOS")
+	private String conhecimentos;
+
+	@Column(name = "CIDADE")
+	private String cidade;
+
+	@Column(name = "ESTADO")
+	private String estado;
+
+	@Column(name = "RUA")
+	private String rua;
+
+	@Column(name = "BAIRRO")
+	private String bairro;
+
+	@Column(name = "NUMERO")
+	private String numero;
+
+	@Column(name = "DESCRICAO", length = 5000)
+	private String descricao;
 
 	@Column(name = "SENHA")
 	private String senha;
@@ -142,7 +174,60 @@ public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 				+ dataDeCriacao + ", status=" + status + ", mudarSenha=" + mudarSenha + ", permissoes=" + permissoes
 				+ "]";
 	}
-	
-	
 
+	@Transient
+	public List<String> conhecimentos() {
+		if (isNotBlank(getConhecimentos()))
+			return Arrays.asList(getConhecimentos().split(","));
+		else
+			return Collections.emptyList();
+	}
+
+	@Transient
+	public List<String> adicionarConhecimentos(List<String> conhecimentos) {
+		return Arrays.asList(getConhecimentos().split(","));
+	}
+
+	@Transient
+	public boolean temImagem() {
+		return isNotBlank(imagem);
+	}
+
+	@Transient
+	public boolean temFormacao() {
+		return isNotBlank(formacao);
+	}
+
+	@Transient
+	public boolean temConhecimento() {
+		return isNotBlank(conhecimentos);
+	}
+
+	@Transient
+	public boolean temDescricao() {
+		return isNotBlank(descricao);
+	}
+
+	@Transient
+	public boolean temEndereco() {
+		return isNotBlank(estado) && isNotBlank(cidade) && isNotBlank(rua) && isNotBlank(numero);
+	}
+
+	@Transient
+	public boolean temInformacoes() {
+		return temConhecimento() && temDescricao() && temEndereco() && temFormacao();
+	}
+
+	@Transient
+	public String getNomeUsuarioLogado() {
+		String nome = "";
+		try {
+			nome = getNome();
+			return nome.substring(0, nome.indexOf(' '));
+		} catch (StringIndexOutOfBoundsException e) {
+			return nome;
+		} catch (NullPointerException e) {
+			return nome;
+		}
+	}
 }

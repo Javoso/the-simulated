@@ -57,18 +57,20 @@
 													</a>
 													<h:outputText escape="false" value="#{conteudo.descricao}" />
 												</h:panelGrid>
-												<f:facet name="actions" >
-													<p:link title="Editar"
-														outcome="/conteudo/cadastrar-conteudo-apoio.xhtml">
-														<h:outputText styleClass="ui-icon pi pi-refresh" />
-														<f:param name="identificador"
-															value="#{conteudo.codificarId()}" />
-													</p:link>
-													<p:commandLink title="Apagar" >
-														<h:outputText styleClass="ui-icon pi pi-trash" />
-														<f:param name="identificador"
-															value="#{conteudo.codificarId()}" />
-													</p:commandLink>
+												<f:facet name="actions">
+													<h:panelGroup rendered="#{sessaoBean.hasRoleAdministrador()}">
+														<p:link title="Editar"
+															outcome="/conteudo/cadastrar-conteudo-apoio.xhtml">
+															<h:outputText styleClass="ui-icon pi pi-refresh" />
+															<f:param name="identificador"
+																value="#{conteudo.codificarId()}" />
+														</p:link>
+														<p:commandLink title="Apagar">
+															<h:outputText styleClass="ui-icon pi pi-trash" />
+															<f:param name="identificador"
+																value="#{conteudo.codificarId()}" />
+														</p:commandLink>
+													</h:panelGroup>
 												</f:facet>
 											</p:panel>
 										</div>

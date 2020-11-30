@@ -114,10 +114,10 @@ public class SessaoBean implements Serializable {
 	private boolean isAutenticado(UsernamePasswordAuthenticationToken auth) {
 		return auth != null && auth.getPrincipal() != null;
 	}
-	
+
 	public Integer getAnoAtual() {
-        return LocalDate.now().getYear();
-    }
+		return LocalDate.now().getYear();
+	}
 
 	public boolean hasRoleAdministrador() {
 		return hasRole("ADMIN");
@@ -126,10 +126,9 @@ public class SessaoBean implements Serializable {
 	public boolean hasRoleUsuario() {
 		return hasRole("USER");
 	}
-	
+
 	public boolean hasAnyRoleSistema() {
 		return hasRoleAdministrador() || hasRoleUsuario();
 	}
-	
-	
+
 }

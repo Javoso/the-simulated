@@ -9,7 +9,7 @@ import br.com.simulado.service.exception.NegocioException;
 
 public interface UsuarioService extends Serializable {
 	
-	void merge(Usuario usuario);
+	Usuario merge(Usuario usuario);
 
 	void mudarStatus(Usuario usuario);
 	

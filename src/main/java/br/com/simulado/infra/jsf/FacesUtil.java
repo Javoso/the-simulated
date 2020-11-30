@@ -94,7 +94,7 @@ public class FacesUtil implements Serializable {
 		return getFacesContext().getViewRoot().getViewId();
 	}
 
-	private static FacesContext getFacesContext() {
+	public static FacesContext getFacesContext() {
 		return FacesContext.getCurrentInstance();
 	}
 

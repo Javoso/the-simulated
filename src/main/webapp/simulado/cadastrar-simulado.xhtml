@@ -270,14 +270,14 @@
 
 			<p:dialog id="dialogo-itens" widgetVar="dialogo-itens"
 				draggable="false" resizable="false" responsive="true" modal="true"
-				showEffect="clip" width="800" hideEffect="clip"
+				showEffect="clip" width="1000" height="500" hideEffect="clip"
 				header="Selecione a questão para adicionar ao simulado">
 
 				<p:dataTable id="questoes-table"
 					value="#{cadastrarSimuladoController.questoes}" var="questao"
-					paginator="true" rows="10" rowsPerPageTemplate="10, 20" lazy="true"
-					paginatorPosition="top" paginatorAlwaysVisible="false"
-					scrollHeight="150" rowKey="#{questao.id}" scrollable="true"
+					paginator="true" rows="10" rowsPerPageTemplate="15, 30, 45, 60"
+					lazy="true" paginatorPosition="top" paginatorAlwaysVisible="false"
+					scrollHeight="300" rowKey="#{questao.id}" scrollable="true"
 					emptyMessage="Nenhuma informação encontrada." reflow="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{currentPage} de {totalPages}">
@@ -315,11 +315,9 @@
 						<h:outputLabel value="#{questao.subCategoria.nome}" />
 					</p:column>
 
-					<p:column headerText="Data de cadastro" width="90"
+					<p:column headerText="Referência" width="90"
 						styleClass="centralizado">
-						<h:outputLabel value="#{questao.dataDeCriacao}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputLabel>
+						<h:outputLabel value="#{questao.referencia}" />
 					</p:column>
 
 					<p:column styleClass="centralizado" width="120">

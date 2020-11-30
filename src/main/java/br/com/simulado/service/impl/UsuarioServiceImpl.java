@@ -36,8 +36,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	@Transactional
-	public void merge(Usuario usuario) {
-		usuarioDAO.merge(usuario);
+	public Usuario merge(Usuario usuario) {
+		return usuarioDAO.merge(usuario);
 	}
 
 	@Override

@@ -20,45 +20,127 @@
 
 	<ui:define name="conteudo">
 
-<!-- 		<h:form id="formulario" prependId="false"> -->
+		<h:form id="formulario" prependId="false">
 
-<!-- 			<p:messages id="msg" closable="true" /> -->
+			<!-- 			<p:messages id="msg" closable="true" /> -->
 
-<!-- 			<div jsf:id="panel-filter" class="ui-fluid ui-g"> -->
+			<!-- 			<div jsf:id="panel-filter" class="ui-fluid ui-g"> -->
 
-<!-- 				<div class="ui-g-12 ui-md-6 ui-lg-3"> -->
-<!-- 					<p:outputLabel value="Simulado: " /> -->
-<!-- 					<br /> -->
-<!-- 					<p:selectOneMenu id="simulado" required="true" -->
-<!-- 						value="#{dashboardController.simuladoDTO}" -->
-<!-- 						converter="SimuladoDtoConverter" autoWidth="false" -->
-<!-- 						requiredMessage="Selecione a simulado"> -->
-<!-- 						<f:selectItem itemLabel="Selecione o simulado" -->
-<!-- 							noSelectionOption="true" /> -->
-<!-- 						<f:selectItems value="#{dashboardController.simuladosDTO}" -->
-<!-- 							var="simulado" itemLabel="#{simulado.nome}" -->
-<!-- 							itemValue="#{simulado}" /> -->
-<!-- 												<p:ajax update="panel-select-sub-categoria msg" -->
-<!-- 													listener="#{pesquisarQuestaoController.pesquisarSubCategoria()}" /> -->
-<!-- 					</p:selectOneMenu> -->
-<!-- 				</div> -->
+			<!-- 				<div class="ui-g-12 ui-md-6 ui-lg-3"> -->
+			<!-- 					<p:outputLabel value="Simulado: " /> -->
+			<!-- 					<br /> -->
+			<!-- 					<p:selectOneMenu id="simulado" required="true" -->
+			<!-- 						value="#{dashboardController.simuladoDTO}" -->
+			<!-- 						converter="SimuladoDtoConverter" autoWidth="false" -->
+			<!-- 						requiredMessage="Selecione a simulado"> -->
+			<!-- 						<f:selectItem itemLabel="Selecione o simulado" -->
+			<!-- 							noSelectionOption="true" /> -->
+			<!-- 						<f:selectItems value="#{dashboardController.simuladosDTO}" -->
+			<!-- 							var="simulado" itemLabel="#{simulado.nome}" -->
+			<!-- 							itemValue="#{simulado}" /> -->
+			<!-- 												<p:ajax update="panel-select-sub-categoria msg" -->
+			<!-- 													listener="#{pesquisarQuestaoController.pesquisarSubCategoria()}" /> -->
+			<!-- 					</p:selectOneMenu> -->
+			<!-- 				</div> -->
 
-<!-- 				<div class="ui-g-12 ui-md-4 ui-lg-2"> -->
-<!-- 					<p:commandButton value="Pesquisar" id="pesquisar" -->
-<!-- 						update="panel-tentativa msg" -->
-<!-- 						process="@this panel-filter panel-tentativa" -->
-<!-- 						style="margin-top: 25px;" -->
-<!-- 						styleClass="btn-blue btn-panel-filter ui-priority-primary" -->
-<!-- 						icon="fa fa-search" action="#{dashboardController.pesquisar()}" /> -->
-<!-- 				</div> -->
-<!-- 				<p:defaultCommand target="pesquisar" /> -->
-<!-- 			</div> -->
+			<!-- 				<div class="ui-g-12 ui-md-4 ui-lg-2"> -->
+			<!-- 					<p:commandButton value="Pesquisar" id="pesquisar" -->
+			<!-- 						update="panel-tentativa msg" -->
+			<!-- 						process="@this panel-filter panel-tentativa" -->
+			<!-- 						style="margin-top: 25px;" -->
+			<!-- 						styleClass="btn-blue btn-panel-filter ui-priority-primary" -->
+			<!-- 						icon="fa fa-search" action="#{dashboardController.pesquisar()}" /> -->
+			<!-- 				</div> -->
+			<!-- 				<p:defaultCommand target="pesquisar" /> -->
+			<!-- 			</div> -->
 
-<!-- 			<br /> -->
+			<!-- 			<br /> -->
 
-<!-- 			<h:panelGroup id="panel-tentativa"> -->
-<!-- 			</h:panelGroup> -->
-<!-- 		</h:form> -->
+			<!-- 			<h:panelGroup id="panel-tentativa"> -->
+			<!-- 			</h:panelGroup> -->
+			<div jsf:id="panel-">
+
+				<div class="row">
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-aqua">
+							<div class="inner">
+								<h3>#{dashboardController.categoriaDeConteudoMaisVisto}</h3>
+
+								<p>Conteúdo de apoio mais visto</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-bag"></i>
+							</div>
+							<a href="#" class="small-box-footer">Mais informações <i
+								class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+					<!-- ./col -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-green">
+							<div class="inner">
+									<!-- 	53<sup style="font-size: 20px">%</sup> -->
+								<h3>
+									#{dashboardController.numeroDeConteudoDeApoioPorCategoria}									
+								</h3>
+
+								<p>Número de Conteudo de apoio</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-stats-bars"></i>
+							</div>
+							<a href="#" class="small-box-footer">Mais informações <i
+								class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+					<!-- ./col -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-yellow">
+							<div class="inner">
+								<h3>#{dashboardController.numeroDeQuestoes}</h3>
+
+								<p>Número de Questões</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-person-add"></i>
+							</div>
+							<a href="#" class="small-box-footer">Mais informações<i
+								class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+					<!-- ./col -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-red">
+							<div class="inner">
+								<h3>#{dashboardController.numeroDeSimulados}</h3>
+
+								<p>Número de Simulados</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-pie-graph"></i>
+							</div>
+							<a href="#" class="small-box-footer">Mais informações<i
+								class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+					<!-- ./col -->
+				</div>
+
+			</div>
+			<div jsf:id="panel-filter" class="ui-fluid ui-g">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-6">
+					<p:barChart model="#{dashboardController.barModel}" />
+				</div>
+				<div class="ui-g-12 ui-md-6 ui-lg-6">
+					<p:barChart model="#{dashboardController.barModel}" />
+				</div>
+			</div>
+		</h:form>
 
 	</ui:define>
 </ui:composition>

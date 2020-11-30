@@ -22,5 +22,9 @@ public class UsuarioSistema extends User {
 		return usuario;
 	}
 	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
 	
 }

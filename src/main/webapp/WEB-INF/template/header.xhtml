@@ -85,18 +85,29 @@
 <!-- 						</ul></li> -->
 
 					<li class="dropdown user user-menu"><a href="#"
-						class="dropdown-toggle" data-toggle="dropdown"> <img
-							src="#{request.contextPath}/resources/img/javoso.png"
-							class="user-image" alt="User Image" /><span class="hidden-xs">#{sessaoBean.nomeUsuarioLogado}</span>
+						class="dropdown-toggle" data-toggle="dropdown"> 
+						<h:panelGroup rendered="#{perfilBean.usuarioLogado.temImagem()}">
+							<img src="#{perfilBean.usuarioLogado.imagem}" class="user-image" alt="User Image" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{not perfilBean.usuarioLogado.temImagem()}">
+							<img src="#{request.contextPath}/resources/img/user-default.png" class="user-image" alt="User Image" />
+						</h:panelGroup>
+						
+						<span class="hidden-xs">#{perfilBean.usuarioLogado.nomeUsuarioLogado}</span>
 					</a>
 						<ul class="dropdown-menu">
 
-							<li class="user-header"><img
-								src="#{request.contextPath}/resources/img/javoso.png"
-								class="img-circle" alt="User Image" />
+							<li class="user-header">
+
+						<h:panelGroup rendered="#{perfilBean.usuarioLogado.temImagem()}">
+							<img src="#{perfilBean.usuarioLogado.imagem}" class="img-circle" alt="User Image" />
+						</h:panelGroup>
+
+						<h:panelGroup rendered="#{not perfilBean.usuarioLogado.temImagem()}">
+							<img src="#{request.contextPath}/resources/img/user-default.png" class="img-circle" alt="User Image" />
+						</h:panelGroup>
 								<p>
-									#{sessaoBean.nomeUsuarioLogado} - Full Developer Java<small>Developer since
-										March of 2016</small>
+									#{perfilBean.usuarioLogado.nomeUsuarioLogado} <small>#{perfilBean.usuarioLogado.descricao}</small>
 								</p></li>
 <!-- 							<li class="user-body"> -->
 <!-- 								<div class="row"> -->
@@ -114,7 +125,7 @@
 
 							<li class="user-footer">
 								<div class="pull-left">
-									<a href="#" class="btn btn-default btn-flat">Perfil</a>
+									<a href="../perfil/perfil.xhtml" class="btn btn-default btn-flat">Perfil</a>
 								</div>
 								<div class="pull-right">
 									<p:link href="../logout" value="Sair" class="btn btn-default btn-flat"/>
