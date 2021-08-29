@@ -31,7 +31,7 @@
 			<label style="font-size: 20px">
 				#{pesquisarConteudoApoioController.categoria.descricao} </label>
 
-			<p:button value="Cadastrar"
+			<p:button value="Cadastrar" rendered="#{sessaoBean.hasRoleAdministrador()}"
 				outcome="/conteudo/cadastrar-conteudo-apoio.xhtml" icon="fa fa-plus"
 				styleClass="btn btn-sm pull-right" />
 

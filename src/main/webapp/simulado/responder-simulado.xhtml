@@ -5,10 +5,11 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	template="/WEB-INF/template/layout.xhtml">
 
 	<ui:define name="title-page">
-		Pesquisar simulado
+		Responder simulado
 	</ui:define>
 
 	<ui:define name="imagem">
@@ -19,7 +20,7 @@
 	</ui:define>
 
 	<ui:define name="sub-titulo">
-		Página para pesquisar simmulado
+		Página para responder simmulado
 	</ui:define>
 
 	<ui:define name="conteudo">
@@ -41,30 +42,34 @@
 
 				<!-- 					<p:outputLabel value="#{categoria.nome}" /> -->
 
-				<ui:repeat var="questao" varStatus="position"
-					value="#{cadastrarTentativaController.simulado.questoes}">
-					<!-- 						value="#{cadastrarTentativaController.simulado.questoesDoSimuladoPorCategora(categoria)}"> -->
+				<div jsf:id="panel-filter" class="ui-fluid ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<ui:repeat var="questao" varStatus="position"
+							value="#{cadastrarTentativaController.simulado.questoes}">
+							<!-- 						value="#{cadastrarTentativaController.simulado.questoesDoSimuladoPorCategora(categoria)}"> -->
 
-					<h:outputText escape="false"
-						value="#{position.index +1}ª) Questão: #{questao.enunciado}" />
+							<h:outputText escape="false"
+								value="#{position.index +1}ª) Questão: #{questao.enunciado}" />
 
-					<p:selectOneRadio id="alternativa" layout="responsive" columns="1"
-						value="#{cadastrarTentativaController.alternativa}"
-						required="true" requiredMessage="Selecione uma alternativa"
-						styleClass="flat-red" converter="AlternativaConverter">
+							<p:selectOneRadio id="alternativa" layout="responsive"
+								columns="1" value="#{cadastrarTentativaController.alternativa}"
+								required="true" requiredMessage="Selecione uma alternativa"
+								converter="AlternativaConverter">
 
-						<f:selectItems value="#{questao.alternativas}"
-							itemLabel="#{alternativa.enunciado}" var="alternativa"
-							itemValue="#{alternativa}" itemLabelEscaped="false">
-						</f:selectItems>
-						<p:ajax process="@this"
-							listener="#{cadastrarTentativaController.adicionarResposta(position.index, questao)}" />
-					</p:selectOneRadio>
+								<f:selectItems value="#{questao.alternativas}"
+									itemLabel="#{alternativa.enunciado}" var="alternativa"
+									itemValue="#{alternativa}" itemLabelEscaped="false">
+								</f:selectItems>
+								<p:ajax process="@this"
+									listener="#{cadastrarTentativaController.adicionarResposta(position.index, questao)}" />
+							</p:selectOneRadio>
 
-					<h:outputText value="#{questao.referencia}" style="float:right;" />
-					<p:spacer />
-					<hr />
-				</ui:repeat>
+							<h:outputText value="#{questao.referencia}" style="float:right;" />
+							<p:spacer />
+							<hr />
+						</ui:repeat>
+					</div>
+				</div>
 				<!-- 				</c:forEach> -->
 			</p:panel>
 
@@ -108,8 +113,8 @@
 				</p:confirmDialog>
 			</h:panelGroup>
 
-			<p:dialog header="Selecionar Simulado" modal="true" id="dialogo"
-				width="800" widgetVar="dlg-importar" showEffect="clip"
+			<p:dialog header="Selecionar Simulado" id="dialogo" width="800"
+				widgetVar="dlg-importar" showEffect="clip"
 				visible="#{cadastrarTentativaController.visibleModal}"
 				hideEffect="clip">
 
@@ -135,13 +140,13 @@
 
 					<p:column headerText="Selecione" width="80"
 						styleClass="centralizado">
-						<p:link outcome="/simulado/responder-simulado.xhtml"
-							title="Selecionar" styleClass="FontGreen">
+						<p:link id="init" outcome="/simulado/responder-simulado.xhtml"
+							title="Clique aqui para iniciar o simulado"
+							styleClass="FontGreen">
 							<f:param name="simuladoID" value="#{simulado.codificarId()}" />
-							<i class="material-icons FontGreen Icon-Hover">add</i>
+							<i class="material-icons FontGreen Icon-Hover">play_circle_filled</i>
 						</p:link>
 					</p:column>
-
 				</p:dataTable>
 			</p:dialog>
 		</h:form>

@@ -6,7 +6,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -160,7 +159,7 @@ public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 
 	public void resetarSenha() throws NegocioException {
 		if (senha == null)
-			throw new NegocioException("a senha está nuloa");
+			throw new NegocioException("a senha está nulo");
 		senha = new Criptografia().criptografar(senha);
 	}
 
@@ -180,7 +179,7 @@ public class Usuario extends EntidadeGenerica<Long> implements Serializable {
 		if (isNotBlank(getConhecimentos()))
 			return Arrays.asList(getConhecimentos().split(","));
 		else
-			return Collections.emptyList();
+			return Arrays.asList();
 	}
 
 	@Transient

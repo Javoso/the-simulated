@@ -33,8 +33,6 @@
 		<h:form id="formulario" prependId="false"
 			enctype="multipart/form-data">
 
-			<p:messages id="msgs" closable="true" />
-
 			<div class="row">
 				<div class="col-md-3">
 
@@ -232,14 +230,16 @@
 											<br />
 											<p:fileUpload id="imagem" mode="advanced"
 												uploadLabel="Enviar" cancelLabel="Cancelar"
-												allowTypes="/(\.|\/)(gif|jpe?g|png)$/" label="Selecionar"
-												dragDropSupport="true" update="nome-file"
-												sizeLimit="5120000" multiple="true"
+												allowTypes="/(\.|\/)(jpg|jpeg|png)$/" label="Selecionar"
+												dragDropSupport="false" update="nome-file"
+												sizeLimit="5120000" multiple="true" auto="true"
+												process="@this"
 												fileUploadListener="#{perfilBean.handleFileUpload}" />
-											<p:message for="imagem" />
 											<br />
-											<p:outputLabel value="#{perfilBean.nomeFile}"
-												rendered="#{perfilBean.temImagem()}" id="nome-file" />
+											<h:panelGroup id="nome-file">
+												<p:outputLabel rendered="#{perfilBean.temImagem()}"
+													value="#{perfilBean.nomeFile}" />
+											</h:panelGroup>
 
 										</div>
 
@@ -257,7 +257,7 @@
 										</div>
 									</p:fieldset>
 									<br />
-									<p:fieldset legend="Endereço">
+									<p:fieldset legend="Endereço" style="margin-top:20px;">
 										<div class="ui-g-12 ui-md-6 ui-lg-6">
 											<p:outputLabel value="Estado:" />
 											<br />
@@ -282,7 +282,7 @@
 								</div>
 								<br /> <br />
 								<p:commandButton value="Editar" icon="fa fa-pencil"
-									action="#{perfilBean.atualizar()}" update="formulario" />
+									action="#{perfilBean.atualizar()}" update="formulario msg" />
 							</div>
 							<!--  A div acima fecha a tab-->
 						</div>

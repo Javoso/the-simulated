@@ -10,12 +10,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.simulado.dao.filter.Filter;
 import br.com.simulado.dao.filter.SimuladoFilter;
 import br.com.simulado.infra.jpa.Transactional;
+import br.com.simulado.models.Questao;
+import br.com.simulado.models.Questao_;
 import br.com.simulado.models.Simulado;
 import br.com.simulado.models.Simulado_;
 import br.com.simulado.models.constantes.TipoSimulado;
@@ -105,7 +108,8 @@ public class SimuladoDao implements DAO<Simulado>, Serializable {
 	public Simulado findById(Long id) {
 		CriteriaQuery<Simulado> query = builder.createQuery(Simulado.class);
 		Root<Simulado> root = query.from(Simulado.class);
-		query.where(builder.equal(root.get(Simulado_.id), id));
+		Join<Simulado, Questao> join = root.join(Simulado_.questoes);
+		query.where(builder.equal(root.get(Simulado_.id), id)).orderBy(builder.asc(join.get(Questao_.id)));
 		return this.manager.createQuery(query).getSingleResult();
 	}
 

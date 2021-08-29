@@ -1,5 +1,7 @@
 package br.com.simulado.controller.pesquisar;
 
+import static java.util.Objects.nonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,11 +49,11 @@ public class PesquisarTentativaController extends AbstractController {
 
 	@Getter
 	@Setter
-	private int quantidadeDeQuestoesAcertadas;
+	private float quantidadeDeQuestoesAcertadas;
 
 	@Getter
 	@Setter
-	private int quantidadeDeQuestoesErradas;
+	private float quantidadeDeQuestoesErradas;
 
 	@Getter
 	@Setter
@@ -131,7 +133,7 @@ public class PesquisarTentativaController extends AbstractController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} 
+		}
 
 		categorias = categoriaService.categorias();
 
@@ -141,15 +143,17 @@ public class PesquisarTentativaController extends AbstractController {
 		verificaCategoriaComMaiorIndexDeErro();
 		verificaCategoriaComMaiorIndexDeAcerto();
 
-		try {
-			subcategoriasParaEstudo = subcategoriaService.subCategoriasPorCategoria(categoriaComMaiorIndiceDeErro);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (nonNull(categoriaComMaiorIndiceDeAcerto.getId()) && nonNull(categoriaComMaiorIndiceDeErro.getId())) {
+			try {
+				subcategoriasParaEstudo = subcategoriaService.subCategoriasPorCategoria(categoriaComMaiorIndiceDeErro);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			conteudoParaAjudar = "../conteudo/conteudo-apoio.xhtml?watch="
+					+ categoriaComMaiorIndiceDeErro.codificarId();
+			conteudoParaMelhorar = "../conteudo/conteudo-apoio.xhtml?watch="
+					+ categoriaComMaiorIndiceDeAcerto.codificarId();
 		}
-
-		conteudoParaAjudar = "../conteudo/conteudo-apoio.xhtml?watch=" + categoriaComMaiorIndiceDeErro.codificarId();
-		conteudoParaMelhorar = "../conteudo/conteudo-apoio.xhtml?watch="
-				+ categoriaComMaiorIndiceDeAcerto.codificarId();
 	}
 
 	public void createDonutModel() {
@@ -301,6 +305,11 @@ public class PesquisarTentativaController extends AbstractController {
 				.filter(resposta -> !resposta.getAlternativaEscolhida().eCorreta()).collect(Collectors.toList()).size();
 	}
 
+	public int totalDeQuestoesAcertadas() {
+		return tentativa.getRespostas().stream().filter(resposta -> resposta.getAlternativaEscolhida().eCorreta())
+				.collect(Collectors.toList()).size();
+	}
+
 	public void initValues() {
 		this.totalDeQuestoes = tentativa.getRespostas().size();
 		this.quantidadeDeQuestoesAcertadas = tentativa.getRespostas().stream()
@@ -309,11 +318,19 @@ public class PesquisarTentativaController extends AbstractController {
 	}
 
 	public float porcentagemDeAcerto() {
-		return ((quantidadeDeQuestoesAcertadas * 100) / totalDeQuestoes);
+		if (quantidadeDeQuestoesAcertadas != 0 && totalDeQuestoes != 0) {
+			return (float) ((quantidadeDeQuestoesAcertadas * 100) / totalDeQuestoes);
+		} else {
+			return 0;
+		}
 	}
 
 	public float porcentagemDeErro() {
-		return ((quantidadeDeQuestoesErradas * 100) / totalDeQuestoes);
+		if (quantidadeDeQuestoesErradas != 0 && totalDeQuestoes != 0) {
+			return (float) ((quantidadeDeQuestoesErradas * 100) / totalDeQuestoes);
+		} else {
+			return 0;
+		}
 	}
 
 }

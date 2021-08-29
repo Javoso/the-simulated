@@ -100,7 +100,7 @@
 					</div>
 
 					<div class="ui-g-12 ui-md-4 ui-lg-2">
-						<p:commandButton value="Pesquisar" id="pesquisar"
+						<p:commandButton value="Pesquisar Questões" id="pesquisar"
 							update="questoes-table msg-dlg panel-filter-ativos dialogo-itens"
 							process="@this panel-filter" style="margin-top: 25px;"
 							styleClass="btn-blue btn-panel-filter ui-priority-primary"
@@ -269,13 +269,13 @@
 			<!-- DIALOGO-QUESTÕES -->
 
 			<p:dialog id="dialogo-itens" widgetVar="dialogo-itens"
-				draggable="false" resizable="false" responsive="true" modal="true"
-				showEffect="clip" width="1000" height="500" hideEffect="clip"
+				responsive="true" showEffect="clip" width="1000" height="400"
+				hideEffect="clip"
 				header="Selecione a questão para adicionar ao simulado">
 
 				<p:dataTable id="questoes-table"
 					value="#{cadastrarSimuladoController.questoes}" var="questao"
-					paginator="true" rows="10" rowsPerPageTemplate="15, 30, 45, 60"
+					paginator="true" rows="10" rowsPerPageTemplate="5, 10, 15, 30, 45, 60"
 					lazy="true" paginatorPosition="top" paginatorAlwaysVisible="false"
 					scrollHeight="300" rowKey="#{questao.id}" scrollable="true"
 					emptyMessage="Nenhuma informação encontrada." reflow="true"

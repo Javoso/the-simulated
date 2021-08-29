@@ -82,14 +82,6 @@ public class FacesUtil implements Serializable {
 		}
 	}
 
-	public String busfinArquivo(String path) {
-		return external.getRealPath(path);
-	}
-
-	public String recuperaLogo() {
-		return busfinArquivo("/resources/images/logo-unicatolica.png");
-	}
-
 	public static String getUrl() {
 		return getFacesContext().getViewRoot().getViewId();
 	}

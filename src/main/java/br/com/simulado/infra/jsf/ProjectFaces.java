@@ -106,14 +106,6 @@ public class ProjectFaces implements Serializable {
 		}
 	}
 
-	public String busfinArquivo(String path) {
-		return external.getRealPath(path);
-	}
-
-	public String recuperaLogo() {
-		return busfinArquivo("/resources/images/logo-unicatolica.png");
-	}
-
 	public String getUrl() {
 		return context.getViewRoot().getViewId();
 	}

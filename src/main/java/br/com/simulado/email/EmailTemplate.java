@@ -1,9 +1,11 @@
 package br.com.simulado.email;
 
+import br.com.simulado.util.BuscaNoWebContent;
+
 public class EmailTemplate {
 
-	private static final String LOGO = "https://drive.google.com/file/d/1ft42FoIpi-vGm23vpsKhPJZBKCmjrsBI/view?usp=sharing";
-	private static final String CONTEXT = "localhost:9000/simulado/confirmacao.xhtml"; // ex.: sysfisio.fcrs.edu.br
+	private static final String LOGO = BuscaNoWebContent.busfinArquivo("/resources/img/theSimulated.png");
+	private static final String CONTEXT = "localhost:9000/simulado/confirmacao.xhtml";
 
 	private EmailTemplate() {
 	}

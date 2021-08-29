@@ -23,187 +23,197 @@
 
 	<ui:define name="conteudo">
 
-		<p:fieldset legend="Legendas - Resultados"
-			style="margin-bottom:20px; float:left; overflow: auto; height: 500px;">
+		<h:panelGroup >
+			<p:fieldset legend="Legendas - Resultados"
+				style="margin-bottom:20px; float:left; overflow: auto; height: 500px;">
 
-			<br />
-			<p:panelGrid columns="3">
-				<h:panelGroup>
+				<br />
+				<p:panelGrid columns="3">
+					<h:panelGroup>
 
-					<div class="correta">
-						<h:outputText style="margin: 10px;" value="Resposta correta" />
-					</div>
-				</h:panelGroup>
+						<div class="correta">
+							<h:outputText style="margin: 10px;" value="Resposta correta" />
+						</div>
+					</h:panelGroup>
 
-				<h:panelGroup>
-					<div class="errada">
-						<h:outputText style="margin: 10px;" value="Resposta errada" />
-					</div>
-				</h:panelGroup>
+					<h:panelGroup>
+						<div class="errada">
+							<h:outputText style="margin: 10px;" value="Resposta errada" />
+						</div>
+					</h:panelGroup>
 
-				<h:panelGroup>
-					<div class="gabarito">
-						<h:outputText style="margin: 10px;" value="Gabarito" />
-					</div>
-				</h:panelGroup>
+					<h:panelGroup>
+						<div class="gabarito">
+							<h:outputText style="margin: 10px;" value="Gabarito" />
+						</div>
+					</h:panelGroup>
 
-			</p:panelGrid>
+				</p:panelGrid>
 
-			<br />
-
-
-			<ui:repeat var="resposta" varStatus="position"
-				value="#{pesquisarTentativaController.tentativa.respostas}">
-
-				<h:outputText escape="false"
-					value="#{position.index +1}ª) Questão: #{resposta.questaoSelecionada.enunciado}" />
+				<br />
 
 
-				<h:panelGroup layout="block"
-					styleClass="#{resposta.alternativaEscolhida.style}">
+				<ui:repeat var="resposta" varStatus="position"
+					value="#{pesquisarTentativaController.tentativa.respostas}">
+
 					<h:outputText escape="false"
-						value="#{resposta.alternativaEscolhida.enunciado}" />
-				</h:panelGroup>
+						value="#{position.index +1}ª) Questão: #{resposta.questaoSelecionada.enunciado}" />
 
-				<p:spacer height="5px" />
 
-				<h:panelGroup layout="block" styleClass="gabarito"
-					rendered="#{not resposta.alternativaEscolhida.eCorreta()}">
-					<h:outputText escape="false"
-						value="#{resposta.questaoSelecionada.alternativaCorretaDaQuestao().enunciado}" />
-				</h:panelGroup>
-				
-				<h:outputText value="#{resposta.questaoSelecionada.referencia}" style="float:right; margin-top: 10px;" />
-				<p:spacer />
-				<hr />
-			</ui:repeat>
+					<h:panelGroup layout="block"
+						styleClass="#{resposta.alternativaEscolhida.style}">
+						<h:outputText escape="false"
+							value="#{resposta.alternativaEscolhida.enunciado}" />
+					</h:panelGroup>
 
-		</p:fieldset>
-		<p:fieldset legend="Aproveitamento" style="margin-bottom:20px ">
-			<br />
-			<ui:repeat var="categoria" varStatus="position"
-				value="#{pesquisarTentativaController.categorias}">
+					<p:spacer height="5px" />
+
+					<h:panelGroup layout="block" styleClass="gabarito"
+						rendered="#{not resposta.alternativaEscolhida.eCorreta()}">
+						<h:outputText escape="false"
+							value="#{resposta.questaoSelecionada.alternativaCorretaDaQuestao().enunciado}" />
+					</h:panelGroup>
+
+					<h:outputText value="#{resposta.questaoSelecionada.referencia}"
+						style="float:right; margin-top: 10px;" />
+					<p:spacer />
+					<hr />
+				</ui:repeat>
+
+			</p:fieldset>
+		</h:panelGroup>
+		<h:panelGroup >
+			<p:fieldset legend="Aproveitamento" style="margin-bottom:20px ">
+				<br />
+				<ui:repeat var="categoria" varStatus="position"
+					value="#{pesquisarTentativaController.categorias}">
+					<div class="col-lg-3 col-xs-6">
+						<div class="small-box #{categoria.style}">
+							<div class="inner">
+								<h3>#{pesquisarTentativaController.respostasCorretasPorCategoria(categoria)}/#{pesquisarTentativaController.respostasPorCategoria(categoria)}</h3>
+								<p>#{categoria.nome}</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-person-add"></i>
+							</div>
+							<div class="small-box-footer">Respostas por categoria</div>
+						</div>
+					</div>
+				</ui:repeat>
 				<div class="col-lg-3 col-xs-6">
-					<div class="small-box #{categoria.style}">
+					<div class="small-box bg-maroon">
 						<div class="inner">
-							<h3>#{pesquisarTentativaController.respostasCorretasPorCategoria(categoria)}/#{pesquisarTentativaController.respostasPorCategoria(categoria)}</h3>
-							<p>#{categoria.nome}</p>
+							<h3>#{pesquisarTentativaController.totalDeQuestoesAcertadas()}/#{pesquisarTentativaController.totalDeQuestoes}</h3>
+							<p>Total de Respsotas</p>
 						</div>
 						<div class="icon">
 							<i class="ion ion-person-add"></i>
 						</div>
-						<div class="small-box-footer">Respostas por categoria</div>
+						<div class="small-box-footer">Respostas</div>
 					</div>
 				</div>
-			</ui:repeat>
-			<div class="col-lg-3 col-xs-6">
-				<div class="small-box bg-maroon">
-					<div class="inner">
-						<h3>#{pesquisarTentativaController.totalDeQuestoes}</h3>
-						<p>Total de Respsotas</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-person-add"></i>
-					</div>
-					<div class="small-box-footer">Respostas</div>
-				</div>
-			</div>
-			<br />
-			<div class="row">
-				<div class="col-md-6">
-					<!-- DONUT CHART -->
-					<div class="box box-success">
-						<div class="box-header with-border">
-							<h3 class="box-title">Margem de Acerto e Erro em %</h3>
-						</div>
-						<div class="box-body">
-							<div class="chart">
-								<p:donutChart model="#{pesquisarTentativaController.donutModel}"
-									style="width: 100%; height: 200px;" />
+				<br />
+				<div class="row">
+					<div class="col-md-6">
+						<!-- DONUT CHART -->
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">Margem de Acerto e Erro em %</h3>
+							</div>
+							<div class="box-body">
+								<div class="chart">
+									<p:donutChart
+										model="#{pesquisarTentativaController.donutModel}"
+										style="width: 100%; height: 200px;" />
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="col-md-6">
+					<div class="col-md-6">
 
-					<!-- BAR CHART -->
-					<div class="box box-success">
-						<div class="box-header with-border">
-							<h3 class="box-title">Respostas por Categoria</h3>
-						</div>
-						<div class="box-body">
-							<div class="chart">
-								<p:barChart model="#{pesquisarTentativaController.barModel}"
-									style="width: 100%; height: 200px;" />
+						<!-- BAR CHART -->
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">Respostas por Categoria</h3>
 							</div>
-						</div>
+							<div class="box-body">
+								<div class="chart">
+									<p:barChart model="#{pesquisarTentativaController.barModel}"
+										style="width: 100%; height: 200px;" />
+								</div>
+							</div>
 
+						</div>
 					</div>
 				</div>
-			</div>
-		</p:fieldset>
-		<p:fieldset legend="Observações" style="margin-bottom:20px ">
-			<div class="row">
-				<div class="col-md-12">
-					<ul class="timeline">
-						<li class="time-label"><span class="bg-red">
-								#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.nome}
-						</span></li>
-						<li><i class="#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.icone} bg-blue"></i>
+			</p:fieldset>
+		</h:panelGroup>
+		<h:panelGroup>
+			<p:fieldset legend="Observações" style="margin-bottom:20px ">
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="timeline">
+							<li class="time-label"><span class="bg-red">
+									#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.nome}
+							</span></li>
+							<li><i
+								class="#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.icone} bg-blue"></i>
 
-							<div class="timeline-item">
+								<div class="timeline-item">
 
-								<h3 class="timeline-header">
-									#{sessaoBean.nomeUsuarioLogado} com base nas suas respostas,
-									você está com dificuldade no conteúdo de
-									#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.nome}.
-								</h3>
+									<h3 class="timeline-header">
+										#{sessaoBean.nomeUsuarioLogado} com base nas suas respostas,
+										você está com dificuldade no conteúdo de
+										#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.nome}.
+									</h3>
 
-								<div class="timeline-body">lhe recomendamos estudar essas
-									materias
-									#{pesquisarTentativaController.subcategoriasParaEstudo} que são
-									relacionadas a
-									#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.nome},
-									caso queira conferir conteúdos de apoio sobre
-									#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.nome},
-									clique no botão abaixo.</div>
-								<div class="timeline-footer">
-									<p:link styleClass="btn btn-primary btn-xs"
-										href="#{pesquisarTentativaController.conteudoParaAjudar}"
-										value="Clique Aqui" />
-								</div>
-							</div></li>
+									<div class="timeline-body">lhe recomendamos estudar essas
+										materias
+										#{pesquisarTentativaController.subcategoriasParaEstudo} que
+										são relacionadas a
+										#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.nome},
+										caso queira conferir conteúdos de apoio sobre
+										#{pesquisarTentativaController.categoriaComMaiorIndiceDeErro.nome},
+										clique no botão abaixo.</div>
+									<div class="timeline-footer">
+										<p:link styleClass="btn btn-primary btn-xs"
+											href="#{pesquisarTentativaController.conteudoParaAjudar}"
+											value="Clique Aqui" />
+									</div>
+								</div></li>
 
-						<li class="time-label"><span class="bg-green">
-								#{pesquisarTentativaController.categoriaComMaiorIndiceDeAcerto.nome}
-						</span></li>
-						<li><i class="#{pesquisarTentativaController.categoriaComMaiorIndiceDeAcerto.icone} bg-purple"></i>
-
-							<div class="timeline-item">
-								<h3 class="timeline-header">
-									#{sessaoBean.nomeUsuarioLogado} com base nas suas respostas,
-									você teve um bom redimento no conteúdo de
-									#{pesquisarTentativaController.categoriaComMaiorIndiceDeAcerto.nome}.
-								</h3>
-
-								<div class="timeline-body">Caso queira aprimorar mais os
-									seus conhecimento sobre
+							<li class="time-label"><span class="bg-green">
 									#{pesquisarTentativaController.categoriaComMaiorIndiceDeAcerto.nome}
-									confira os conteúdos de apoio sobre
-									#{pesquisarTentativaController.categoriaComMaiorIndiceDeAcerto.nome}
-									e outros, clicando no botão abaixo.</div>
-								<div class="timeline-footer">
-									<p:link styleClass="btn btn-primary btn-xs"
-										href="#{pesquisarTentativaController.conteudoParaMelhorar}"
-										value="Clique Aqui" />
-								</div>
-							</div></li>
-					</ul>
+							</span></li>
+							<li><i
+								class="#{pesquisarTentativaController.categoriaComMaiorIndiceDeAcerto.icone} bg-purple"></i>
+
+								<div class="timeline-item">
+									<h3 class="timeline-header">
+										#{sessaoBean.nomeUsuarioLogado} com base nas suas respostas,
+										você teve um bom redimento no conteúdo de
+										#{pesquisarTentativaController.categoriaComMaiorIndiceDeAcerto.nome}.
+									</h3>
+
+									<div class="timeline-body">Caso queira aprimorar mais os
+										seus conhecimento sobre
+										#{pesquisarTentativaController.categoriaComMaiorIndiceDeAcerto.nome}
+										confira os conteúdos de apoio sobre
+										#{pesquisarTentativaController.categoriaComMaiorIndiceDeAcerto.nome}
+										e outros, clicando no botão abaixo.</div>
+									<div class="timeline-footer">
+										<p:link styleClass="btn btn-primary btn-xs"
+											href="#{pesquisarTentativaController.conteudoParaMelhorar}"
+											value="Clique Aqui" />
+									</div>
+								</div></li>
+						</ul>
+					</div>
+					<!-- /.col -->
 				</div>
-				<!-- /.col -->
-			</div>
-		</p:fieldset>
+			</p:fieldset>
+		</h:panelGroup>
 		<!-- /.row -->
 	</ui:define>
 </ui:composition>

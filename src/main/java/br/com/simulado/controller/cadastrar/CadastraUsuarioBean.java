@@ -54,7 +54,7 @@ public class CadastraUsuarioBean extends AbstractController {
 				usuario.setStatus(false);
 				usuarioService.persist(usuario);
 				onSuccessWithFlash("Usuário salvo com sucesso!");
-				redirect("/confirmacao.xhtml");
+				redirect("/dados-validados.xhtml");
 			} else {
 				onError("As senhas são diferentes");
 			}

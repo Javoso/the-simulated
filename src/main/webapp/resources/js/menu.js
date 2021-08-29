@@ -4,7 +4,7 @@
 
 		var page = window.location.pathname;
 
-		 if(page === "/Simulado/") {
+		 if(page === "/phonebook/") {
 		 page += "index.xhtml";
 		 }
 					

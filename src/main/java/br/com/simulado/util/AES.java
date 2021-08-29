@@ -15,6 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
+
 public class AES {
 
 	private final SecretKeySpec SECRET_KEY;
@@ -42,7 +43,7 @@ public class AES {
 		try {
 			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
 			cipher.init(Cipher.DECRYPT_MODE, SECRET_KEY);
-			return new String(cipher.doFinal(Base64.decodeBase64(value.replace("@", "/").concat("=="))));
+			return new String(cipher.doFinal(Base64.decodeBase64(value.replace("@", "/").replace(" ", "+").concat("=="))));
 		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException e) {
 			e.printStackTrace();
 		}

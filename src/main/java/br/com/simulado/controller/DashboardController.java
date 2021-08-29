@@ -20,13 +20,16 @@ import org.primefaces.model.charts.optionconfig.legend.LegendLabel;
 import org.primefaces.model.charts.optionconfig.title.Title;
 
 import br.com.simulado.models.Categoria;
+import br.com.simulado.models.Simulado;
 import br.com.simulado.models.Tentativa;
 import br.com.simulado.models.Usuario;
 import br.com.simulado.models.dto.SimuladoDTO;
 import br.com.simulado.security.Logado;
 import br.com.simulado.service.CategoriaService;
 import br.com.simulado.service.SimuladoRespondidoService;
+import br.com.simulado.service.SimuladoService;
 import br.com.simulado.service.TentativaService;
+import br.com.simulado.util.AES;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,6 +52,9 @@ public class DashboardController extends AbstractController {
 	@Inject
 	private SimuladoRespondidoService simuladoRespondidoService;
 
+	@Inject
+	private SimuladoService simuladoService;
+
 	@Getter
 	@Setter
 	private SimuladoDTO simuladoDTO = new SimuladoDTO();
@@ -56,6 +62,10 @@ public class DashboardController extends AbstractController {
 	@Getter
 	@Setter
 	private List<SimuladoDTO> simuladosDTO = new ArrayList<>();
+
+	@Getter
+	@Setter
+	private List<Simulado> simulados = new ArrayList<>();
 
 	@Getter
 	@Setter
@@ -69,12 +79,26 @@ public class DashboardController extends AbstractController {
 	@Setter
 	private BarChartModel barModel;
 
+	@Getter
+	@Setter
+	private BarChartModel barModelSimulado;
+
 	@Override
 	public void init() {
 		// simuladosDTO =
 		// simuladoRespondidoService.simuladosPorEstudante(estudanteLogado);
+		String id = getParamName("idT");
+		if (id != null) {
+			System.out.println("Criptando");
+			System.out.println(id);
+			String decript = new AES().decodificar(id);
+			System.out.println("Decriptando");
+			System.out.println(decript);
+		}
+		simulados = simuladoService.simulados();
 		categorias = categoriaService.categorias();
 		gerarRankingDeCategoriasMaisDificeis();
+		gerarRankingDeSimuladoMaisDificeis();
 	}
 
 	public boolean isListTentativasIsNotEmpty() {
@@ -139,6 +163,57 @@ public class DashboardController extends AbstractController {
 		barModel.setOptions(options);
 
 	}
+	
+	public void gerarRankingDeSimuladoMaisDificeis() {
+		barModelSimulado = new BarChartModel();
+		ChartData data = new ChartData();
+
+		BarChartDataSet barDataSet = new BarChartDataSet();
+		barDataSet.setLabel("Ranking dos Simulado mais dificeis");
+
+		List<Number> values = new ArrayList<>();
+
+		barDataSet.setBackgroundColor("#4BC0C0");
+		data.addChartDataSet(barDataSet);
+
+		List<String> labels = new ArrayList<>();
+		simulados.forEach(simulado -> {
+			labels.add(simulado.getNome());
+			values.add(new Random().nextInt(50));
+		});
+
+		barDataSet.setData(values);
+		data.setLabels(labels);
+		barModelSimulado.setData(data);
+
+		// Options
+		BarChartOptions options = new BarChartOptions();
+		CartesianScales cScales = new CartesianScales();
+		CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+		CartesianLinearTicks ticks = new CartesianLinearTicks();
+		ticks.setBeginAtZero(true);
+		linearAxes.setTicks(ticks);
+		cScales.addYAxesData(linearAxes);
+		options.setScales(cScales);
+
+		Title title = new Title();
+		title.setDisplay(true);
+		title.setText("Bar Chart");
+		options.setTitle(title);
+
+		Legend legend = new Legend();
+		legend.setDisplay(true);
+		legend.setPosition("top");
+		LegendLabel legendLabels = new LegendLabel();
+		legendLabels.setFontStyle("bold");
+		legendLabels.setFontColor("#2980B9");
+		legendLabels.setFontSize(17);
+		legend.setLabels(legendLabels);
+		options.setLegend(legend);
+
+		barModelSimulado.setOptions(options);
+
+	}
 
 	public int getNumeroDeQuestoes() {
 		return 70;
@@ -147,14 +222,13 @@ public class DashboardController extends AbstractController {
 	public int getNumeroDeSimulados() {
 		return 20;
 	}
-	
+
 	public int getNumeroDeConteudoDeApoioPorCategoria() {
 		return 120;
 	}
-	
+
 	public String getCategoriaDeConteudoMaisVisto() {
 		return "Matemática";
 	}
-	
 
 }
